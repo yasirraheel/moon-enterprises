@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dialog Dimensions for Small Screens -->
+    <dimen name="dialog_margin_horizontal">8dp</dimen>
+    <dimen name="dialog_margin_vertical">16dp</dimen>
+    <dimen name="dialog_max_width">300dp</dimen>
+    <dimen name="dialog_max_height">500dp</dimen>
+    <dimen name="dialog_corner_radius">10dp</dimen>
+    <dimen name="dialog_elevation">6dp</dimen>
+    
+    <!-- Dialog Content -->
+    <dimen name="dialog_content_padding">12dp</dimen>
+    <dimen name="dialog_section_spacing">12dp</dimen>
+    <dimen name="dialog_text_line_spacing">1dp</dimen>
+    
+    <!-- Dialog Header -->
+    <dimen name="dialog_header_padding_vertical">12dp</dimen>
+    <dimen name="dialog_header_min_height">48dp</dimen>
+    <dimen name="dialog_header_icon_size">18dp</dimen>
+    <dimen name="dialog_header_icon_margin">8dp</dimen>
+    <dimen name="dialog_header_text_size">14sp</dimen>
+    
+    <!-- Dialog App Info -->
+    <dimen name="dialog_app_icon_size">36dp</dimen>
+    <dimen name="dialog_app_icon_margin">8dp</dimen>
+    <dimen name="dialog_app_name_text_size">13sp</dimen>
+    <dimen name="dialog_app_version_text_size">11sp</dimen>
+    <dimen name="dialog_description_text_size">12sp</dimen>
+    
+    <!-- Dialog Update Card -->
+    <dimen name="dialog_update_card_corner_radius">6dp</dimen>
+    <dimen name="dialog_update_card_elevation">2dp</dimen>
+    <dimen name="dialog_update_card_padding">8dp</dimen>
+    <dimen name="dialog_update_title_text_size">11sp</dimen>
+    <dimen name="dialog_update_text_size">10sp</dimen>
+    <dimen name="dialog_update_count_text_size">9sp</dimen>
+    <dimen name="dialog_update_text_spacing">2dp</dimen>
+    
+    <!-- Dialog Buttons -->
+    <dimen name="dialog_button_height">36dp</dimen>
+    <dimen name="dialog_button_text_size">11sp</dimen>
+    <dimen name="dialog_button_corner_radius">6dp</dimen>
+    <dimen name="dialog_button_icon_size">14dp</dimen>
+    <dimen name="dialog_button_spacing">4dp</dimen>
+    <dimen name="dialog_button_margin_top">6dp</dimen>
+</resources>

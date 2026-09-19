@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "864288936046",
+    "project_id": "gen-lang-client-0212191941",
+    "storage_bucket": "gen-lang-client-0212191941.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:864288936046:android:669ca7655a5ab3ee08567f",
+        "android_client_info": {
+          "package_name": "com.geo.enterprises"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtTqcOBewA9u9VEYBWnKHiK9a-teUMf3o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

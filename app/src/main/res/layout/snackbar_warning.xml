@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/snackbar_warning_background"
+    android:padding="16dp"
+    android:gravity="center_vertical">
+
+    <!-- Warning Icon -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@color/warning_color"
+        android:layout_marginEnd="12dp">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_warning"
+            android:contentDescription="Warning"
+            android:tint="@color/white" />
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Message -->
+    <TextView
+        android:id="@+id/tv_snackbar_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Warning message here"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+    <!-- Close Button -->
+    <ImageView
+        android:id="@+id/iv_snackbar_close"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_close"
+        android:contentDescription="Close"
+        android:tint="@color/white"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="4dp" />
+
+</LinearLayout>

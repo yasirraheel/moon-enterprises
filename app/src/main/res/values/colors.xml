@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Colors - Based on admin panel theme -->
+    <color name="primary_color">#007bff</color>
+    <color name="primary_dark">#0056b3</color>
+    <color name="primary_light">#66b3ff</color>
+    
+    <!-- Background Colors -->
+    <color name="background_primary">#f8f9fa</color>
+    <color name="background_secondary">#ffffff</color>
+    <color name="background_light">#f8f9fa</color>
+    <color name="card_background">#ffffff</color>
+    
+    <!-- Text Colors -->
+    <color name="text_primary">#212529</color>
+    <color name="text_secondary">#6c757d</color>
+    <color name="text_hint">#adb5bd</color>
+    <color name="text_white">#ffffff</color>
+    
+    <!-- Status Colors -->
+    <color name="success">#28a745</color>
+    <color name="error">#dc3545</color>
+    <color name="error_color">#dc3545</color>
+    <color name="warning">#ffc107</color>
+    <color name="info">#17a2b8</color>
+    
+    <!-- Snackbar Colors -->
+    <color name="success_color">#28a745</color>
+    <color name="success_dark">#1e7e34</color>
+    <color name="warning_color">#ffc107</color>
+    <color name="warning_dark">#e0a800</color>
+    <color name="danger_color">#dc3545</color>
+    <color name="danger_dark">#c82333</color>
+    
+    <!-- Border Colors -->
+    <color name="border_light">#e9ecef</color>
+    <color name="border_medium">#dee2e6</color>
+    <color name="divider_color">#e9ecef</color>
+    
+    <!-- Overlay Colors -->
+    <color name="overlay_dark">#80000000</color>
+    <color name="overlay_light">#80ffffff</color>
+    
+    <!-- Social Media Colors -->
+    <color name="facebook_blue">#1877F2</color>
+    <color name="twitter_blue">#1DA1F2</color>
+    <color name="google_red">#EA4335</color>
+    
+    <!-- Modern UI Colors -->
+    <color name="gradient_start">#667eea</color>
+    <color name="gradient_center">#764ba2</color>
+    <color name="gradient_end">#f093fb</color>
+    
+    <!-- Material Design Colors -->
+    <color name="purple_200">#ffbb86fc</color>
+    <color name="purple_500">#ff6200ee</color>
+    <color name="purple_700">#ff3700b3</color>
+    <color name="teal_200">#ff03dac5</color>
+    <color name="teal_700">#ff018786</color>
+    <color name="black">#ff000000</color>
+    <color name="white">#ffffffff</color>
+    <color name="lite_green">#90EE90</color>
+    <color name="premium_gold">#D4AF37</color>
+</resources>

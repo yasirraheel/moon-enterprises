@@ -1,0 +1,75 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.GEOENTERPRISES" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary colors -->
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorPrimaryVariant">@color/primary_dark</item>
+        <item name="colorOnPrimary">@color/text_white</item>
+        
+        <!-- Secondary colors -->
+        <item name="colorSecondary">@color/primary_light</item>
+        <item name="colorOnSecondary">@color/text_primary</item>
+        
+        <!-- Background colors -->
+        <item name="android:colorBackground">@color/background_primary</item>
+        <item name="colorSurface">@color/card_background</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        
+        <!-- Text colors -->
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        
+        <!-- Status bar -->
+        <item name="android:statusBarColor">@color/primary_color</item>
+        <item name="android:windowLightStatusBar">false</item>
+        
+        <!-- Window attributes for proper edge-to-edge layout -->
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+    </style>
+
+    <style name="Theme.GEOENTERPRISES" parent="Base.Theme.GEOENTERPRISES" />
+    
+    <!-- Custom button style -->
+    <style name="CustomButton" parent="Widget.Material3.Button">
+        <item name="android:textColor">@color/text_white</item>
+        <item name="backgroundTint">@color/primary_color</item>
+        <item name="cornerRadius">28dp</item>
+    </style>
+
+    <!-- Shared Top Bar style (matches Home) -->
+    <style name="WidgetGeoTopBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/primary_color</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">@dimen/top_bar_padding_horizontal</item>
+        <item name="android:paddingEnd">@dimen/top_bar_padding_horizontal</item>
+        <item name="android:paddingTop">@dimen/top_bar_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/top_bar_padding_vertical</item>
+    </style>
+
+    <style name="WidgetGeoTopBarNavIcon">
+        <item name="android:layout_width">@dimen/top_bar_nav_icon_size</item>
+        <item name="android:layout_height">@dimen/top_bar_nav_icon_size</item>
+        <item name="android:layout_marginEnd">@dimen/top_bar_nav_icon_margin_end</item>
+        <item name="android:padding">@dimen/top_bar_nav_icon_padding</item>
+        <item name="android:tint">@color/white</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="TextAppearanceGeoTopBarTitle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">@dimen/top_bar_title_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:shadowColor">@color/black</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">1</item>
+    </style>
+</resources>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_item_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingStart="12dp"
+    android:paddingEnd="8dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:background="@color/white">
+
+    <!-- RTTP Column -->
+    <TextView
+        android:id="@+id/tv_rttp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.2"
+        android:text="1234"
+        android:textSize="13sp"
+        android:textColor="@color/primary_color"
+        android:fontFamily="monospace"
+        android:textStyle="bold" />
+
+    <!-- First Amount Column -->
+    <TextView
+        android:id="@+id/tv_first"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="-"
+        android:textSize="12sp"
+        android:textColor="@color/text_primary"
+        android:gravity="end" />
+
+    <!-- Second Amount Column -->
+    <TextView
+        android:id="@+id/tv_second"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="-"
+        android:textSize="12sp"
+        android:textColor="@color/text_primary"
+        android:gravity="end" />
+
+    <!-- Total Amount Column -->
+    <TextView
+        android:id="@+id/tv_total"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="0"
+        android:textSize="12sp"
+        android:textColor="@color/text_primary"
+        android:textStyle="bold"
+        android:gravity="end" />
+
+    <!-- Status/Action Column -->
+    <FrameLayout
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="4dp">
+
+        <!-- Delete Button (for drafted items) -->
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_close"
+            android:tint="#E53935"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="Delete"
+            android:visibility="gone" />
+
+        <!-- Progress Spinner (for placing items) -->
+        <ProgressBar
+            android:id="@+id/pb_placing"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:visibility="gone" />
+
+        <!-- Success Icon -->
+        <ImageView
+            android:id="@+id/iv_success"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_check_circle"
+            android:tint="@color/success"
+            android:visibility="gone"
+            android:contentDescription="Success" />
+
+        <!-- Failed Icon -->
+        <ImageView
+            android:id="@+id/iv_failed"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_error"
+            android:tint="@color/error"
+            android:visibility="gone"
+            android:contentDescription="Failed" />
+
+    </FrameLayout>
+
+</LinearLayout>
