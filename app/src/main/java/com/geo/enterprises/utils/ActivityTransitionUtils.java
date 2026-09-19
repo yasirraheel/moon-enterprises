@@ -1,4 +1,4 @@
-package com.geo.enterprises.utils;
+ackage com.geo.enterprises.utils;
 
 import android.app.Activity;
 import android.content.Intent;

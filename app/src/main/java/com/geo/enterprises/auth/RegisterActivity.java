@@ -1,4 +1,4 @@
-package com.geo.enterprises.auth;
+ackage com.geo.enterprises.auth;
 
 import android.content.Intent;
 import android.os.Bundle;

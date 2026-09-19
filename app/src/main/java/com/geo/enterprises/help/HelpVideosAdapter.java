@@ -1,4 +1,4 @@
-package com.geo.enterprises.help;
+ackage com.geo.enterprises.help;
 
 import android.view.LayoutInflater;
 import android.view.View;

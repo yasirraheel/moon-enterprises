@@ -1,4 +1,4 @@
-package com.geo.enterprises.api;
+ackage com.geo.enterprises.api;
 
 import com.geo.enterprises.config.AppConfig;
 import com.geo.enterprises.utils.MaintenanceModeHandler;

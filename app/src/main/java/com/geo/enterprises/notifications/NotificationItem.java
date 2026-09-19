@@ -1,4 +1,4 @@
-package com.geo.enterprises.notifications;
+ackage com.geo.enterprises.notifications;
 
 import com.google.gson.annotations.SerializedName;
 import java.util.Map;

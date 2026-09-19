@@ -1,4 +1,4 @@
-package com.geo.enterprises.models;
+ackage com.geo.enterprises.models;
 
 /**
  * Model class representing a draft order before submission.

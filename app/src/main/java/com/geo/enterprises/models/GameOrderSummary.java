@@ -1,4 +1,4 @@
-package com.geo.enterprises.models;
+ackage com.geo.enterprises.models;
 
 public class GameOrderSummary {
     private String gameName;

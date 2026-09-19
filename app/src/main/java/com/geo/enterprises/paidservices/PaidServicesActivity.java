@@ -1,4 +1,4 @@
-package com.geo.enterprises.paidservices;
+ackage com.geo.enterprises.paidservices;
 
 import android.os.Bundle;
 import android.util.Log;

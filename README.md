@@ -1,4 +1,4 @@
-﻿# 🎮 Moon Enterprises Android App
+ 🎮 Moon Enterprises Android App
 
 [![Version](https://img.shields.io/badge/version-2.3-blue.svg)](https://github.com/yasirraheel/geo-enterprises-android-app)
 [![Android](https://img.shields.io/badge/Android-7.0%2B-green.svg)](https://developer.android.com)

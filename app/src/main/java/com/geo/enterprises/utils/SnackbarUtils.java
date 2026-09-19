@@ -1,4 +1,4 @@
-﻿package com.geo.enterprises.utils;
+ckage com.geo.enterprises.utils;
 
 import android.app.Activity;
 import android.view.LayoutInflater;

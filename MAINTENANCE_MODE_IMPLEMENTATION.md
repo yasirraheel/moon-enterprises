@@ -1,4 +1,4 @@
-﻿# Maintenance Mode Implementation Guide
+ Maintenance Mode Implementation Guide
 
 ## Overview
 This document describes the maintenance mode handling implementation in the MOON ENTERPRISES Android app. When the Laravel backend is in maintenance mode, it returns HTTP status code `503 Service Unavailable`. The Android app now gracefully handles this response and shows appropriate user-friendly messages.

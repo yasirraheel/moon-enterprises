@@ -1,4 +1,4 @@
-package com.geo.enterprises.subcategory;
+ackage com.geo.enterprises.subcategory;
 
 import android.content.Intent;
 import android.os.Bundle;
