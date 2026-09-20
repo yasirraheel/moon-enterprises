@@ -1,4 +1,4 @@
-ckage com.geo.enterprises.dashboard;
+package com.geo.enterprises.dashboard;
 
 import android.Manifest;
 import android.content.Intent;
@@ -118,6 +118,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     private Runnable activeUsersRunnable;
     private Runnable payoutAlertRunnable;
     private int activeUserCount = 200;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -298,7 +299,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
             WindowInsetsHelper.applyProfessionalBottomNavigationFix(this, bottomNav);
         }
 
-        // Social Proof Cards
+        // Social Proof Cards (above WhatsApp button)
         tvActiveUsers = findViewById(R.id.tv_active_users);
         tvPayoutAlert = findViewById(R.id.tv_payout_alert);
         startSocialProofUpdates();
@@ -1875,43 +1876,46 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
             "سانا ملک", "حمزہ شیخ", "نادیہ اقبال", "عاصم رضا", "رخسانہ بیگم",
             "داؤد انصاری", "ثناء چودھری", "کاشف امین", "پریا شاہ", "وقاص جاوید"
         };
-        final int[] payoutAmounts = {2000, 5000, 10000, 3000, 7500};
+        final int[] payoutAmounts = {2000, 5000, 10000, 3000, 7500, 15000};
         final int[] payoutIndex = {0};
         final java.util.Random random = new java.util.Random();
 
-        // ---- Card 1: Active Users counter ----
+        // ---- Card 1: Active Users counter (starts at 200, +1 or +2 every 1-3s) ----
         activeUsersRunnable = new Runnable() {
             @Override
             public void run() {
                 int increment = 1 + random.nextInt(2); // +1 or +2
                 activeUserCount += increment;
                 if (tvActiveUsers != null) {
-                    tvActiveUsers.setText("🟢 " + activeUserCount + " Online");
+                    tvActiveUsers.setText(activeUserCount + " Online");
                 }
-                // Re-schedule after 1–3 seconds
+                // Re-schedule after 1 to 3 seconds (1000ms - 3000ms)
                 long delay = 1000 + random.nextInt(2000);
-                socialProofHandler.postDelayed(this, delay);
+                if (socialProofHandler != null) {
+                    socialProofHandler.postDelayed(this, delay);
+                }
             }
         };
         socialProofHandler.postDelayed(activeUsersRunnable, 1500);
 
-        // ---- Card 2: Payout Alert rotator ----
+        // ---- Card 2: Payout Alert rotator (Urdu names + safe NumberFormat) ----
         payoutAlertRunnable = new Runnable() {
             @Override
             public void run() {
                 String name = urduNames[payoutIndex[0] % urduNames.length];
                 int amount = payoutAmounts[random.nextInt(payoutAmounts.length)];
-                // Use NumberFormat for safe comma-grouped amount (avoids String.format crash with RTL/Urdu)
                 java.text.NumberFormat nf = java.text.NumberFormat.getNumberInstance(java.util.Locale.US);
                 String formattedAmount = nf.format(amount);
-                String alertText = name + " \u0646\u06d2 Rs. " + formattedAmount + " \u0646\u06a9\u0627\u0644\u06d2";
+                String alertText = name + " نے Rs. " + formattedAmount + " نکالے";
                 if (tvPayoutAlert != null) {
                     tvPayoutAlert.setText(alertText);
                 }
                 payoutIndex[0]++;
-                // Cycle every 3–5 seconds
+                // Cycle every 3 to 5 seconds
                 long delay = 3000 + random.nextInt(2000);
-                socialProofHandler.postDelayed(this, delay);
+                if (socialProofHandler != null) {
+                    socialProofHandler.postDelayed(this, delay);
+                }
             }
         };
         socialProofHandler.postDelayed(payoutAlertRunnable, 2000);
@@ -1920,10 +1924,13 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Stop social proof updates to prevent memory leaks
         if (socialProofHandler != null) {
-            if (activeUsersRunnable != null) socialProofHandler.removeCallbacks(activeUsersRunnable);
-            if (payoutAlertRunnable != null) socialProofHandler.removeCallbacks(payoutAlertRunnable);
+            if (activeUsersRunnable != null) {
+                socialProofHandler.removeCallbacks(activeUsersRunnable);
+            }
+            if (payoutAlertRunnable != null) {
+                socialProofHandler.removeCallbacks(payoutAlertRunnable);
+            }
         }
     }
 }

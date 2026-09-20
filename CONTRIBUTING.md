@@ -1,4 +1,4 @@
- Contributing to Moon Enterprises Android App
+﻿# Contributing to Moon Enterprises Android App
 
 Thank you for your interest in contributing to the Moon Enterprises Android App! This document provides guidelines and information for contributors.
 

@@ -1,4 +1,4 @@
-ackage com.geo.enterprises.fcm;
+package com.geo.enterprises.fcm;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

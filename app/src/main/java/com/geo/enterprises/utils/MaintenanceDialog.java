@@ -1,4 +1,4 @@
-ackage com.geo.enterprises.utils;
+package com.geo.enterprises.utils;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;

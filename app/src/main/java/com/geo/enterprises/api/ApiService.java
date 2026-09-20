@@ -1,4 +1,4 @@
-ackage com.geo.enterprises.api;
+package com.geo.enterprises.api;
 
 import java.util.List;
 import java.util.Map;

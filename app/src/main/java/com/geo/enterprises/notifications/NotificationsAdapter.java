@@ -1,4 +1,4 @@
-ackage com.geo.enterprises.notifications;
+package com.geo.enterprises.notifications;
 
 import android.view.LayoutInflater;
 import android.view.View;

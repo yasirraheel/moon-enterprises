@@ -1,4 +1,4 @@
-ackage com.geo.enterprises.withdrawal;
+package com.geo.enterprises.withdrawal;
 
 import android.os.Bundle;
 import android.view.View;

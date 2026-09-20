@@ -1,4 +1,4 @@
-ackage com.geo.enterprises.utils;
+package com.geo.enterprises.utils;
 
 import android.app.Dialog;
 import android.content.Context;

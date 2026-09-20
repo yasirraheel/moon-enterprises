@@ -1,4 +1,4 @@
-ckage com.geo.enterprises;
+package com.geo.enterprises;
 
 import android.Manifest;
 import android.content.Intent;

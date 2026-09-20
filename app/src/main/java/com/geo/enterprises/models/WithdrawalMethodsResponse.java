@@ -1,4 +1,4 @@
-ackage com.geo.enterprises.models;
+package com.geo.enterprises.models;
 
 import com.google.gson.annotations.SerializedName;
 import java.util.List;

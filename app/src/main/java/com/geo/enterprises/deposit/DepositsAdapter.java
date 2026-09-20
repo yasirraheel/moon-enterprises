@@ -1,4 +1,4 @@
-ackage com.geo.enterprises.deposit;
+package com.geo.enterprises.deposit;
 
 import android.content.Context;
 import android.view.LayoutInflater;

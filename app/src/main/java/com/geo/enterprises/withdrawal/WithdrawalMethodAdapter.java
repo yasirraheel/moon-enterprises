@@ -1,4 +1,4 @@
-ackage com.geo.enterprises.withdrawal;
+package com.geo.enterprises.withdrawal;
 
 import android.content.Context;
 import android.view.LayoutInflater;

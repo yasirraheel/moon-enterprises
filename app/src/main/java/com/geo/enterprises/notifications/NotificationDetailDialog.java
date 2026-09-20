@@ -1,4 +1,4 @@
-ackage com.geo.enterprises.notifications;
+package com.geo.enterprises.notifications;
 
 import android.app.Dialog;
 import android.content.Context;

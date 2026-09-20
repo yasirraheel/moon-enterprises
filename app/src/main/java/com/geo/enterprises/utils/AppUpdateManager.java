@@ -1,4 +1,4 @@
-ckage com.geo.enterprises.utils;
+package com.geo.enterprises.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;

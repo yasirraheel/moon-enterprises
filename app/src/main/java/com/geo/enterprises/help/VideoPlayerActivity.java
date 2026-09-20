@@ -1,4 +1,4 @@
-ackage com.geo.enterprises.help;
+package com.geo.enterprises.help;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;

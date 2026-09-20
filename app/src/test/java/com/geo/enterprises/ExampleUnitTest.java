@@ -1,4 +1,4 @@
-ackage com.geo.enterprises;
+package com.geo.enterprises;
 
 import org.junit.Test;
 

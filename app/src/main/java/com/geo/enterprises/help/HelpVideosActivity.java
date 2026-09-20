@@ -1,4 +1,4 @@
-ackage com.geo.enterprises.help;
+package com.geo.enterprises.help;
 
 import android.content.Intent;
 import android.os.Bundle;

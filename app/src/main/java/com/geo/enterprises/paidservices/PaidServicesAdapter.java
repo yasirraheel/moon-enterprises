@@ -1,4 +1,4 @@
-ackage com.geo.enterprises.paidservices;
+package com.geo.enterprises.paidservices;
 
 import android.view.LayoutInflater;
 import android.view.View;

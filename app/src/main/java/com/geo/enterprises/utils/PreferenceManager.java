@@ -1,4 +1,4 @@
-ackage com.geo.enterprises.utils;
+package com.geo.enterprises.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

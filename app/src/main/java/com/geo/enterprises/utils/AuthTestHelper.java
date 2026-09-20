@@ -1,4 +1,4 @@
-ackage com.geo.enterprises.utils;
+package com.geo.enterprises.utils;
 
 import android.util.Log;
 import com.geo.enterprises.api.ApiClient;

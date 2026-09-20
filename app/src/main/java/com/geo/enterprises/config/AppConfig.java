@@ -1,4 +1,4 @@
-ackage com.geo.enterprises.config;
+package com.geo.enterprises.config;
 
 /**
  * Application Configuration

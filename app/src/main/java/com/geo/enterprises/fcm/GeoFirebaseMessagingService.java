@@ -1,4 +1,4 @@
-ackage com.geo.enterprises.fcm;
+package com.geo.enterprises.fcm;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
