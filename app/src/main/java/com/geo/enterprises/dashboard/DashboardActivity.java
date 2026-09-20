@@ -1901,10 +1901,12 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
             public void run() {
                 String name = urduNames[payoutIndex[0] % urduNames.length];
                 int amount = payoutAmounts[random.nextInt(payoutAmounts.length)];
-                String formatted = String.format(java.util.Locale.getDefault(),
-                        "%s نے Rs. %,d نکالے", name, amount);
+                // Use NumberFormat for safe comma-grouped amount (avoids String.format crash with RTL/Urdu)
+                java.text.NumberFormat nf = java.text.NumberFormat.getNumberInstance(java.util.Locale.US);
+                String formattedAmount = nf.format(amount);
+                String alertText = name + " \u0646\u06d2 Rs. " + formattedAmount + " \u0646\u06a9\u0627\u0644\u06d2";
                 if (tvPayoutAlert != null) {
-                    tvPayoutAlert.setText(formatted);
+                    tvPayoutAlert.setText(alertText);
                 }
                 payoutIndex[0]++;
                 // Cycle every 3–5 seconds
