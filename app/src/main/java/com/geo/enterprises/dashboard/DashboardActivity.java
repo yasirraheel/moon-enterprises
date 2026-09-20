@@ -111,6 +111,14 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     // Swipe Refresh
     private SwipeRefreshLayout swipeRefresh;
 
+    // ===== Social Proof Cards =====
+    private TextView tvActiveUsers;
+    private TextView tvPayoutAlert;
+    private android.os.Handler socialProofHandler;
+    private Runnable activeUsersRunnable;
+    private Runnable payoutAlertRunnable;
+    private int activeUserCount = 200;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -289,6 +297,11 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         if (bottomNav != null) {
             WindowInsetsHelper.applyProfessionalBottomNavigationFix(this, bottomNav);
         }
+
+        // Social Proof Cards
+        tvActiveUsers = findViewById(R.id.tv_active_users);
+        tvPayoutAlert = findViewById(R.id.tv_payout_alert);
+        startSocialProofUpdates();
     }
     
     private void setupNavigationDrawer() {
@@ -1850,4 +1863,66 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
         dialog.show();
     }
+
+    // ===== SOCIAL PROOF: Live Active Users + Payout Alerts =====
+    private void startSocialProofUpdates() {
+        socialProofHandler = new android.os.Handler();
+
+        // Urdu names for payout alerts
+        final String[] urduNames = {
+            "احمد علی", "محمد حسن", "فاطمہ بی بی", "علی رضا", "زینب نور",
+            "عمر فاروق", "عائشہ صدیق", "بلال احمد", "ماریہ خان", "طارق محمود",
+            "سانا ملک", "حمزہ شیخ", "نادیہ اقبال", "عاصم رضا", "رخسانہ بیگم",
+            "داؤد انصاری", "ثناء چودھری", "کاشف امین", "پریا شاہ", "وقاص جاوید"
+        };
+        final int[] payoutAmounts = {2000, 5000, 10000, 3000, 7500};
+        final int[] payoutIndex = {0};
+        final java.util.Random random = new java.util.Random();
+
+        // ---- Card 1: Active Users counter ----
+        activeUsersRunnable = new Runnable() {
+            @Override
+            public void run() {
+                int increment = 1 + random.nextInt(2); // +1 or +2
+                activeUserCount += increment;
+                if (tvActiveUsers != null) {
+                    tvActiveUsers.setText("🟢 " + activeUserCount + " Online");
+                }
+                // Re-schedule after 1–3 seconds
+                long delay = 1000 + random.nextInt(2000);
+                socialProofHandler.postDelayed(this, delay);
+            }
+        };
+        socialProofHandler.postDelayed(activeUsersRunnable, 1500);
+
+        // ---- Card 2: Payout Alert rotator ----
+        payoutAlertRunnable = new Runnable() {
+            @Override
+            public void run() {
+                String name = urduNames[payoutIndex[0] % urduNames.length];
+                int amount = payoutAmounts[random.nextInt(payoutAmounts.length)];
+                String formatted = String.format(java.util.Locale.getDefault(),
+                        "%s نے Rs. %,d نکالے", name, amount);
+                if (tvPayoutAlert != null) {
+                    tvPayoutAlert.setText(formatted);
+                }
+                payoutIndex[0]++;
+                // Cycle every 3–5 seconds
+                long delay = 3000 + random.nextInt(2000);
+                socialProofHandler.postDelayed(this, delay);
+            }
+        };
+        socialProofHandler.postDelayed(payoutAlertRunnable, 2000);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Stop social proof updates to prevent memory leaks
+        if (socialProofHandler != null) {
+            if (activeUsersRunnable != null) socialProofHandler.removeCallbacks(activeUsersRunnable);
+            if (payoutAlertRunnable != null) socialProofHandler.removeCallbacks(payoutAlertRunnable);
+        }
+    }
 }
+
