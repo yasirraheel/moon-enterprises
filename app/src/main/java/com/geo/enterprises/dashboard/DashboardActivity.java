@@ -123,6 +123,8 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     private Runnable activeUsersRunnable;
     private Runnable payoutAlertRunnable;
     private int activeUserCount = 448;
+    private com.geo.enterprises.views.AnimatedBorderView glowBorderOnline;
+    private com.geo.enterprises.views.AnimatedBorderView glowBorderTransaction;
 
 
     @Override
@@ -311,6 +313,19 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         ivTransactionType = findViewById(R.id.iv_transaction_type);
         layoutTransactionIconBg = findViewById(R.id.layout_transaction_icon_bg);
         layoutPayoutTextContainer = findViewById(R.id.layout_payout_text_container);
+
+        // Illuminating border animations
+        glowBorderOnline = findViewById(R.id.glow_border_online);
+        glowBorderTransaction = findViewById(R.id.glow_border_transaction);
+        if (glowBorderOnline != null) {
+            glowBorderOnline.setAccentColor(0xFF10B981); // emerald green
+            glowBorderOnline.startAnimation();
+        }
+        if (glowBorderTransaction != null) {
+            glowBorderTransaction.setAccentColor(0xFF3B82F6); // blue
+            glowBorderTransaction.startAnimation();
+        }
+
         startSocialProofUpdates();
     }
     
@@ -1986,11 +2001,11 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                     spannable.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), amountStart, amountEnd, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
 
-                // Style the time — lighter secondary color
+                // Style the time — prominent secondary color
                 int timeStart = fullText.indexOf(timeAgo);
                 if (timeStart >= 0) {
                     int timeEnd = timeStart + timeAgo.length();
-                    spannable.setSpan(new android.text.style.ForegroundColorSpan(0xFF6B7280), timeStart, timeEnd, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spannable.setSpan(new android.text.style.ForegroundColorSpan(0xFF374151), timeStart, timeEnd, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
 
                 if (layoutPayoutTextContainer != null) {
@@ -2072,6 +2087,8 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                 socialProofHandler.removeCallbacks(payoutAlertRunnable);
             }
         }
+        if (glowBorderOnline != null) glowBorderOnline.stopAnimation();
+        if (glowBorderTransaction != null) glowBorderTransaction.stopAnimation();
     }
 }
 
