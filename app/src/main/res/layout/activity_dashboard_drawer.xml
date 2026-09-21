@@ -485,9 +485,10 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="12dp"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:layoutDirection="ltr">
 
-                    <!-- Pulse / User Icon Container -->
+                    <!-- Pulse / User Icon Container (LEFT) -->
                     <FrameLayout
                         android:layout_width="38dp"
                         android:layout_height="38dp"
@@ -503,40 +504,27 @@
 
                     </FrameLayout>
 
-                    <!-- Text Info Column -->
-                    <LinearLayout
+                    <!-- Text Title (MIDDLE) -->
+                    <TextView
+                        android:id="@+id/tv_online_title"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center_vertical">
+                        android:text="اس وقت آن لائن صارفین"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary"
+                        android:fontFamily="@font/noto_nastaliq_urdu"
+                        android:includeFontPadding="false"
+                        android:gravity="center_vertical|start"
+                        android:textAlignment="viewStart"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:layout_marginEnd="8dp" />
 
-                        <TextView
-                            android:id="@+id/tv_online_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="اس وقت آن لائن صارفین"
-                            android:textSize="13sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/text_primary"
-                            android:fontFamily="@font/noto_nastaliq_urdu"
-                            android:includeFontPadding="false"
-                            android:lineSpacingExtra="2dp" />
-
-                        <TextView
-                            android:id="@+id/tv_online_subtitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="لائیو سسٹم سرگرمی"
-                            android:textSize="10sp"
-                            android:textColor="@color/text_secondary"
-                            android:fontFamily="@font/noto_nastaliq_urdu"
-                            android:includeFontPadding="false" />
-
-                    </LinearLayout>
-
-                    <!-- Online Counter Pill Badge -->
+                    <!-- Online Counter Pill Badge (RIGHT) -->
                     <LinearLayout
+                        android:id="@+id/layout_online_badge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_pill_badge_green"
@@ -583,13 +571,15 @@
                 app:strokeColor="@color/border_light">
 
                 <LinearLayout
+                    android:id="@+id/layout_payout_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="12dp"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:layoutDirection="ltr">
 
-                    <!-- Transaction Icon Container -->
+                    <!-- Transaction Icon Container (LEFT) -->
                     <FrameLayout
                         android:id="@+id/layout_transaction_icon_bg"
                         android:layout_width="38dp"
@@ -609,12 +599,12 @@
 
                     <!-- Text Column -->
                     <LinearLayout
+                        android:id="@+id/layout_payout_text_container"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical"
-                        android:gravity="center_vertical"
-                        android:layout_marginEnd="8dp">
+                        android:gravity="center_vertical">
 
                         <TextView
                             android:id="@+id/tv_payout_alert"
@@ -626,7 +616,7 @@
                             android:textColor="@color/text_primary"
                             android:fontFamily="@font/noto_nastaliq_urdu"
                             android:includeFontPadding="false"
-                            android:lineSpacingExtra="3dp"
+                            android:lineSpacingExtra="2dp"
                             android:ellipsize="end"
                             android:maxLines="1" />
 
@@ -634,39 +624,13 @@
                             android:id="@+id/tv_payout_subtitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="کامیاب ادائیگی • ابھی ابھی"
-                            android:textSize="10sp"
+                            android:text="ابھی ابھی"
+                            android:textSize="11sp"
                             android:textColor="@color/text_secondary"
                             android:fontFamily="@font/noto_nastaliq_urdu"
                             android:includeFontPadding="false"
                             android:ellipsize="end"
                             android:maxLines="1" />
-
-                    </LinearLayout>
-
-                    <!-- Status Pill Badge -->
-                    <LinearLayout
-                        android:id="@+id/layout_payout_badge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_pill_badge_green"
-                        android:orientation="horizontal"
-                        android:paddingStart="9dp"
-                        android:paddingEnd="9dp"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:gravity="center">
-
-                        <TextView
-                            android:id="@+id/tv_payout_status_badge"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="ادا شدہ"
-                            android:textSize="11sp"
-                            android:textStyle="bold"
-                            android:textColor="#16A34A"
-                            android:fontFamily="@font/noto_nastaliq_urdu"
-                            android:includeFontPadding="false" />
 
                     </LinearLayout>
 

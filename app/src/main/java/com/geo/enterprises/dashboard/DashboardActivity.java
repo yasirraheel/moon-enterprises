@@ -115,13 +115,11 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     // ===== Social Proof Cards =====
     private TextView tvActiveUsers;
     private TextView tvOnlineTitle;
-    private TextView tvOnlineSubtitle;
     private TextView tvPayoutAlert;
     private TextView tvPayoutSubtitle;
-    private TextView tvPayoutStatusBadge;
     private ImageView ivTransactionType;
     private FrameLayout layoutTransactionIconBg;
-    private LinearLayout layoutPayoutBadge;
+    private LinearLayout layoutPayoutTextContainer;
     private android.os.Handler socialProofHandler;
     private Runnable activeUsersRunnable;
     private Runnable payoutAlertRunnable;
@@ -310,13 +308,11 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         // Social Proof Cards (above WhatsApp button)
         tvActiveUsers = findViewById(R.id.tv_active_users);
         tvOnlineTitle = findViewById(R.id.tv_online_title);
-        tvOnlineSubtitle = findViewById(R.id.tv_online_subtitle);
         tvPayoutAlert = findViewById(R.id.tv_payout_alert);
         tvPayoutSubtitle = findViewById(R.id.tv_payout_subtitle);
-        tvPayoutStatusBadge = findViewById(R.id.tv_payout_status_badge);
         ivTransactionType = findViewById(R.id.iv_transaction_type);
         layoutTransactionIconBg = findViewById(R.id.layout_transaction_icon_bg);
-        layoutPayoutBadge = findViewById(R.id.layout_payout_badge);
+        layoutPayoutTextContainer = findViewById(R.id.layout_payout_text_container);
         startSocialProofUpdates();
     }
     
@@ -560,17 +556,11 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                 if (tvOnlineTitle != null) {
                     tvOnlineTitle.setTypeface(nastaliq);
                 }
-                if (tvOnlineSubtitle != null) {
-                    tvOnlineSubtitle.setTypeface(nastaliq);
-                }
                 if (tvPayoutAlert != null) {
                     tvPayoutAlert.setTypeface(nastaliq);
                 }
                 if (tvPayoutSubtitle != null) {
                     tvPayoutSubtitle.setTypeface(nastaliq);
-                }
-                if (tvPayoutStatusBadge != null) {
-                    tvPayoutStatusBadge.setTypeface(nastaliq);
                 }
             }
         } catch (Exception e) {
@@ -1923,7 +1913,15 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         };
         final int[] amounts = {2000, 3500, 5000, 7500, 10000, 12000, 15000, 20000, 25000};
         final String[] paymentMethods = {"JazzCash", "EasyPaisa", "Bank Transfer"};
-        final String[] timesAgoUrdu = {"ابھی ابھی", "1 منٹ پہلے", "2 منٹ پہلے", "چند سیکنڈ پہلے"};
+        final String[] timesAgoUrdu = {
+            "ابھی ابھی",
+            "1 منٹ پہلے",
+            "2 منٹ پہلے",
+            "3 منٹ پہلے",
+            "4 منٹ پہلے",
+            "5 منٹ پہلے",
+            "چند لمحے پہلے"
+        };
         final int[] txnIndex = {0};
         final java.util.Random random = new java.util.Random();
 
@@ -1949,13 +1947,12 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         };
         socialProofHandler.postDelayed(activeUsersRunnable, 1200);
 
-        // ---- Card 2: Live Activity (Alternates between Withdrawals and Deposits) ----
+        // ---- Card 2: Live Activity (Alternates between Withdrawals and Deposits with smooth bottom-to-top animation) ----
         payoutAlertRunnable = new Runnable() {
             @Override
             public void run() {
                 String name = urduNames[txnIndex[0] % urduNames.length];
                 int amount = amounts[random.nextInt(amounts.length)];
-                String method = paymentMethods[random.nextInt(paymentMethods.length)];
                 String timeAgo = timesAgoUrdu[random.nextInt(timesAgoUrdu.length)];
 
                 java.text.NumberFormat nf = java.text.NumberFormat.getNumberInstance(java.util.Locale.US);
@@ -1963,47 +1960,67 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
                 // Alternating: Even = Withdrawal (Green), Odd = Deposit (Blue)
                 boolean isWithdrawal = (txnIndex[0] % 2 == 0);
+                String alertText = isWithdrawal ?
+                        (name + " نے " + formattedAmount + " روپے نکلوائے") :
+                        (name + " نے " + formattedAmount + " روپے جمع کروائے");
 
-                if (isWithdrawal) {
-                    // WITHDRAWAL (کیش آؤٹ / نکلوائے)
-                    String alertText = name + " نے " + formattedAmount + " روپے نکلوائے";
-                    String subText = "کامیاب ادائیگی (" + method + ") • " + timeAgo;
+                if (layoutPayoutTextContainer != null) {
+                    // 1. Current text smoothly slides UP and fades out
+                    float slideOffset = 28f;
+                    layoutPayoutTextContainer.animate()
+                        .translationY(-slideOffset)
+                        .alpha(0f)
+                        .setDuration(220)
+                        .setInterpolator(new android.view.animation.AccelerateInterpolator())
+                        .withEndAction(() -> {
+                            // 2. Set new content while hidden
+                            if (tvPayoutAlert != null) tvPayoutAlert.setText(alertText);
+                            if (tvPayoutSubtitle != null) tvPayoutSubtitle.setText(timeAgo);
 
-                    if (tvPayoutAlert != null) tvPayoutAlert.setText(alertText);
-                    if (tvPayoutSubtitle != null) tvPayoutSubtitle.setText(subText);
-                    if (tvPayoutStatusBadge != null) {
-                        tvPayoutStatusBadge.setText("ادا شدہ");
-                        tvPayoutStatusBadge.setTextColor(0xFF16A34A); // Green #16A34A
-                    }
-                    if (layoutPayoutBadge != null) {
-                        layoutPayoutBadge.setBackgroundResource(R.drawable.bg_pill_badge_green);
-                    }
-                    if (layoutTransactionIconBg != null) {
-                        layoutTransactionIconBg.setBackgroundResource(R.drawable.bg_social_icon_green);
-                    }
-                    if (ivTransactionType != null) {
-                        ivTransactionType.setImageResource(R.drawable.ic_social_withdraw);
-                    }
+                            if (isWithdrawal) {
+                                if (layoutTransactionIconBg != null) {
+                                    layoutTransactionIconBg.setBackgroundResource(R.drawable.bg_social_icon_green);
+                                }
+                                if (ivTransactionType != null) {
+                                    ivTransactionType.setImageResource(R.drawable.ic_social_withdraw);
+                                }
+                            } else {
+                                if (layoutTransactionIconBg != null) {
+                                    layoutTransactionIconBg.setBackgroundResource(R.drawable.bg_social_icon_blue);
+                                }
+                                if (ivTransactionType != null) {
+                                    ivTransactionType.setImageResource(R.drawable.ic_social_deposit);
+                                }
+                            }
+
+                            // 3. Position below (ready to slide in from bottom)
+                            layoutPayoutTextContainer.setTranslationY(slideOffset);
+                            layoutPayoutTextContainer.setAlpha(0f);
+
+                            // 4. Smoothly slide IN from bottom to 0 with natural deceleration
+                            layoutPayoutTextContainer.animate()
+                                .translationY(0f)
+                                .alpha(1f)
+                                .setDuration(340)
+                                .setInterpolator(new android.view.animation.DecelerateInterpolator(1.6f))
+                                .start();
+
+                            // Subtle icon bounce pop
+                            if (layoutTransactionIconBg != null) {
+                                layoutTransactionIconBg.setScaleX(0.72f);
+                                layoutTransactionIconBg.setScaleY(0.72f);
+                                layoutTransactionIconBg.animate()
+                                    .scaleX(1f)
+                                    .scaleY(1f)
+                                    .setDuration(360)
+                                    .setInterpolator(new android.view.animation.OvershootInterpolator(1.3f))
+                                    .start();
+                            }
+                        })
+                        .start();
                 } else {
-                    // DEPOSIT (جمع کروائے)
-                    String alertText = name + " نے " + formattedAmount + " روپے جمع کروائے";
-                    String subText = "کامیاب ڈپازٹ (" + method + ") • " + timeAgo;
-
                     if (tvPayoutAlert != null) tvPayoutAlert.setText(alertText);
-                    if (tvPayoutSubtitle != null) tvPayoutSubtitle.setText(subText);
-                    if (tvPayoutStatusBadge != null) {
-                        tvPayoutStatusBadge.setText("موصول شدہ");
-                        tvPayoutStatusBadge.setTextColor(0xFF2563EB); // Blue #2563EB
-                    }
-                    if (layoutPayoutBadge != null) {
-                        layoutPayoutBadge.setBackgroundResource(R.drawable.bg_pill_badge_blue);
-                    }
-                    if (layoutTransactionIconBg != null) {
-                        layoutTransactionIconBg.setBackgroundResource(R.drawable.bg_social_icon_blue);
-                    }
-                    if (ivTransactionType != null) {
-                        ivTransactionType.setImageResource(R.drawable.ic_social_deposit);
-                    }
+                    if (tvPayoutSubtitle != null) tvPayoutSubtitle.setText(timeAgo);
                 }
 
                 txnIndex[0]++;
