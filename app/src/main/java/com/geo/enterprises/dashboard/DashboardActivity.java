@@ -1898,6 +1898,16 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     private void startSocialProofUpdates() {
         socialProofHandler = new android.os.Handler();
 
+        // Pulse animation on the live dot
+        View pulseDot = findViewById(R.id.view_pulse_dot);
+        if (pulseDot != null) {
+            android.animation.ObjectAnimator pulseAnim = android.animation.ObjectAnimator.ofFloat(pulseDot, "alpha", 1f, 0.25f);
+            pulseAnim.setDuration(900);
+            pulseAnim.setRepeatCount(android.animation.ValueAnimator.INFINITE);
+            pulseAnim.setRepeatMode(android.animation.ValueAnimator.REVERSE);
+            pulseAnim.start();
+        }
+
         // Realistic Urdu names for live transactions
         final String[] urduNames = {
             "احمد علی", "محمد حسن", "فاطمہ بی بی", "علی رضا", "زینب نور",
@@ -1955,9 +1965,33 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
                 // Alternating: Even = Withdrawal (Green), Odd = Deposit (Blue)
                 boolean isWithdrawal = (txnIndex[0] % 2 == 0);
-                String alertText = isWithdrawal ?
-                        (name + " نے " + timeAgo + " " + formattedAmount + " روپے نکلوائے") :
-                        (name + " نے " + timeAgo + " " + formattedAmount + " روپے جمع کروائے");
+
+                // Build styled text with SpannableString
+                String actionText = isWithdrawal ? " روپے نکلوائے" : " روپے جمع کروائے";
+                String fullText = name + " نے " + timeAgo + " " + formattedAmount + actionText;
+
+                android.text.SpannableString spannable = new android.text.SpannableString(fullText);
+
+                // Style the name — bold + accent color
+                int nameEnd = name.length();
+                int nameColor = isWithdrawal ? 0xFF059669 : 0xFF2563EB;
+                spannable.setSpan(new android.text.style.ForegroundColorSpan(nameColor), 0, nameEnd, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannable.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, nameEnd, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                // Style the amount — bold + dark
+                int amountStart = fullText.indexOf(formattedAmount);
+                if (amountStart >= 0) {
+                    int amountEnd = amountStart + formattedAmount.length();
+                    spannable.setSpan(new android.text.style.ForegroundColorSpan(0xFF111827), amountStart, amountEnd, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spannable.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), amountStart, amountEnd, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+
+                // Style the time — lighter secondary color
+                int timeStart = fullText.indexOf(timeAgo);
+                if (timeStart >= 0) {
+                    int timeEnd = timeStart + timeAgo.length();
+                    spannable.setSpan(new android.text.style.ForegroundColorSpan(0xFF6B7280), timeStart, timeEnd, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
 
                 if (layoutPayoutTextContainer != null) {
                     // 1. Current text gracefully slides UP and fades out (380ms)
@@ -1968,22 +2002,22 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                         .setDuration(380)
                         .setInterpolator(new android.view.animation.AccelerateInterpolator(1.2f))
                         .withEndAction(() -> {
-                            // 2. Set new content while hidden
-                            if (tvPayoutAlert != null) tvPayoutAlert.setText(alertText);
+                            // 2. Set new styled content while hidden
+                            if (tvPayoutAlert != null) tvPayoutAlert.setText(spannable);
 
                             if (isWithdrawal) {
                                 if (layoutTransactionIconBg != null) {
-                                    layoutTransactionIconBg.setBackgroundResource(R.drawable.bg_social_icon_green);
+                                    layoutTransactionIconBg.setBackgroundResource(R.drawable.bg_transaction_icon_withdraw);
                                 }
                                 if (ivTransactionType != null) {
-                                    ivTransactionType.setImageResource(R.drawable.ic_social_withdraw);
+                                    ivTransactionType.setImageResource(R.drawable.ic_withdraw_white);
                                 }
                             } else {
                                 if (layoutTransactionIconBg != null) {
-                                    layoutTransactionIconBg.setBackgroundResource(R.drawable.bg_social_icon_blue);
+                                    layoutTransactionIconBg.setBackgroundResource(R.drawable.bg_transaction_icon_deposit);
                                 }
                                 if (ivTransactionType != null) {
-                                    ivTransactionType.setImageResource(R.drawable.ic_social_deposit);
+                                    ivTransactionType.setImageResource(R.drawable.ic_deposit_white);
                                 }
                             }
 
@@ -2013,7 +2047,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                         })
                         .start();
                 } else {
-                    if (tvPayoutAlert != null) tvPayoutAlert.setText(alertText);
+                    if (tvPayoutAlert != null) tvPayoutAlert.setText(spannable);
                 }
 
                 txnIndex[0]++;

@@ -473,71 +473,74 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:layout_marginBottom="8dp"
-                app:cardCornerRadius="14dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="@color/white"
-                app:strokeWidth="1dp"
-                app:strokeColor="@color/border_light">
+                android:layout_marginBottom="6dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:strokeWidth="0dp">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="12dp"
-                    android:gravity="center_vertical"
-                    android:layoutDirection="ltr">
+                    android:background="@drawable/bg_card_online_premium"
+                    android:padding="14dp">
 
-                    <!-- Online Counter Pill Badge (LEFT SIDE) -->
+                    <!-- LEFT: Premium Emerald Count Capsule -->
                     <LinearLayout
                         android:id="@+id/layout_online_badge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_pill_badge_green"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/bg_online_count_capsule"
                         android:orientation="horizontal"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="12dp"
-                        android:paddingTop="6dp"
-                        android:paddingBottom="6dp"
-                        android:gravity="center_vertical"
-                        android:layout_marginEnd="12dp">
+                        android:paddingStart="12dp"
+                        android:paddingEnd="14dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:gravity="center_vertical">
 
-                        <ImageView
+                        <!-- Pulsing Live Dot -->
+                        <View
+                            android:id="@+id/view_pulse_dot"
                             android:layout_width="8dp"
                             android:layout_height="8dp"
-                            android:src="@drawable/ic_live_pulse"
-                            android:layout_marginEnd="6dp"
-                            android:contentDescription="Live" />
+                            android:background="@drawable/bg_online_pulse_dot"
+                            android:layout_marginEnd="8dp" />
 
                         <TextView
                             android:id="@+id/tv_active_users"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="452"
-                            android:textSize="13sp"
+                            android:textSize="15sp"
                             android:textStyle="bold"
-                            android:textColor="#059669" />
+                            android:textColor="#FFFFFF"
+                            android:letterSpacing="0.02" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=" Online"
-                            android:textSize="11sp"
+                            android:textSize="12sp"
                             android:textStyle="bold"
-                            android:textColor="#059669" />
+                            android:textColor="#D1FAE5" />
 
                     </LinearLayout>
 
-                    <!-- Text Title (RIGHT SIDE) -->
+                    <!-- RIGHT: Urdu Title -->
                     <TextView
                         android:id="@+id/tv_online_title"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/layout_online_badge"
+                        android:layout_marginStart="12dp"
                         android:text="اس وقت آن لائن صارفین"
-                        android:textSize="13sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
-                        android:textColor="@color/text_primary"
+                        android:textColor="#1F2937"
                         android:fontFamily="@font/noto_nastaliq_urdu"
                         android:includeFontPadding="false"
                         android:gravity="center_vertical|end"
@@ -545,7 +548,7 @@
                         android:ellipsize="end"
                         android:maxLines="1" />
 
-                </LinearLayout>
+                </RelativeLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -555,35 +558,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                app:cardCornerRadius="14dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="@color/white"
-                app:strokeWidth="1dp"
-                app:strokeColor="@color/border_light">
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:id="@+id/layout_payout_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/bg_card_transaction_premium"
                     android:orientation="horizontal"
-                    android:padding="12dp"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="13dp"
+                    android:paddingBottom="13dp"
                     android:gravity="center_vertical"
                     android:layoutDirection="ltr">
 
-                    <!-- Transaction Icon Container (LEFT) -->
+                    <!-- Transaction Icon Container (LEFT) — rounded square gradient -->
                     <FrameLayout
                         android:id="@+id/layout_transaction_icon_bg"
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
-                        android:background="@drawable/bg_social_icon_green"
-                        android:layout_marginEnd="12dp">
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:background="@drawable/bg_transaction_icon_withdraw"
+                        android:layout_marginEnd="14dp">
 
                         <ImageView
                             android:id="@+id/iv_transaction_type"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_social_withdraw"
+                            android:src="@drawable/ic_withdraw_white"
                             android:contentDescription="Transaction" />
 
                     </FrameLayout>
@@ -602,11 +608,11 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:text="احمد علی نے ابھی ابھی 5,000 روپے نکلوائے"
-                            android:textSize="13sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/text_primary"
+                            android:textSize="13.5sp"
+                            android:textColor="#1F2937"
                             android:fontFamily="@font/noto_nastaliq_urdu"
                             android:includeFontPadding="false"
+                            android:lineSpacingExtra="2dp"
                             android:ellipsize="end"
                             android:maxLines="1" />
 
