@@ -467,16 +467,18 @@
             </androidx.cardview.widget.CardView>
 
             <!-- ===== Social Proof Card 1: Active Users ===== -->
+            <!-- ===== Social Proof Card 1: Active Online Users ===== -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_active_users"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="6dp"
                 android:layout_marginBottom="8dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="3dp"
-                app:cardBackgroundColor="#0D47A1"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/white"
                 app:strokeWidth="1dp"
-                app:strokeColor="#33FFFFFF">
+                app:strokeColor="@color/border_light">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -485,45 +487,100 @@
                     android:padding="12dp"
                     android:gravity="center_vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🟢"
-                        android:textSize="14sp"
-                        android:layout_marginEnd="8dp" />
+                    <!-- Pulse / User Icon Container -->
+                    <FrameLayout
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:background="@drawable/bg_social_icon_green"
+                        android:layout_marginEnd="12dp">
 
-                    <TextView
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_live_pulse"
+                            android:contentDescription="Live" />
+
+                    </FrameLayout>
+
+                    <!-- Text Info Column -->
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="ابھی آن لائن صارفین"
-                        android:textSize="14sp"
-                        android:textColor="#E3F2FD"
-                        android:fontFamily="sans-serif" />
+                        android:orientation="vertical"
+                        android:gravity="center_vertical">
 
-                    <TextView
-                        android:id="@+id/tv_active_users"
+                        <TextView
+                            android:id="@+id/tv_online_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="اس وقت آن لائن صارفین"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary"
+                            android:fontFamily="@font/noto_nastaliq_urdu"
+                            android:includeFontPadding="false"
+                            android:lineSpacingExtra="2dp" />
+
+                        <TextView
+                            android:id="@+id/tv_online_subtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="لائیو سسٹم سرگرمی"
+                            android:textSize="10sp"
+                            android:textColor="@color/text_secondary"
+                            android:fontFamily="@font/noto_nastaliq_urdu"
+                            android:includeFontPadding="false" />
+
+                    </LinearLayout>
+
+                    <!-- Online Counter Pill Badge -->
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="200 Online"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:textColor="#00E676" />
+                        android:background="@drawable/bg_pill_badge_green"
+                        android:orientation="horizontal"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/tv_active_users"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="452"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#059669" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" Online"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:textColor="#059669" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- ===== Social Proof Card 2: Payout Alerts (Urdu Names) ===== -->
+            <!-- ===== Social Proof Card 2: Live Activity (Withdrawals & Deposits) ===== -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_payout_alert"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="3dp"
-                app:cardBackgroundColor="#004D40"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/white"
                 app:strokeWidth="1dp"
-                app:strokeColor="#33FFFFFF">
+                app:strokeColor="@color/border_light">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -532,30 +589,86 @@
                     android:padding="12dp"
                     android:gravity="center_vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="💰"
-                        android:textSize="18sp"
-                        android:layout_marginEnd="8dp" />
+                    <!-- Transaction Icon Container -->
+                    <FrameLayout
+                        android:id="@+id/layout_transaction_icon_bg"
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:background="@drawable/bg_social_icon_green"
+                        android:layout_marginEnd="12dp">
 
-                    <TextView
-                        android:id="@+id/tv_payout_alert"
+                        <ImageView
+                            android:id="@+id/iv_transaction_type"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_social_withdraw"
+                            android:contentDescription="Transaction" />
+
+                    </FrameLayout>
+
+                    <!-- Text Column -->
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="احمد علی نے Rs. 5,000 نکالے"
-                        android:textSize="13sp"
-                        android:textColor="#E0F2F1"
-                        android:fontFamily="sans-serif" />
+                        android:orientation="vertical"
+                        android:gravity="center_vertical"
+                        android:layout_marginEnd="8dp">
 
-                    <TextView
+                        <TextView
+                            android:id="@+id/tv_payout_alert"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="احمد علی نے 5,000 روپے نکلوائے"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary"
+                            android:fontFamily="@font/noto_nastaliq_urdu"
+                            android:includeFontPadding="false"
+                            android:lineSpacingExtra="3dp"
+                            android:ellipsize="end"
+                            android:maxLines="1" />
+
+                        <TextView
+                            android:id="@+id/tv_payout_subtitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="کامیاب ادائیگی • ابھی ابھی"
+                            android:textSize="10sp"
+                            android:textColor="@color/text_secondary"
+                            android:fontFamily="@font/noto_nastaliq_urdu"
+                            android:includeFontPadding="false"
+                            android:ellipsize="end"
+                            android:maxLines="1" />
+
+                    </LinearLayout>
+
+                    <!-- Status Pill Badge -->
+                    <LinearLayout
+                        android:id="@+id/layout_payout_badge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="✅ ادا شدہ"
-                        android:textSize="11sp"
-                        android:textStyle="bold"
-                        android:textColor="#69F0AE" />
+                        android:background="@drawable/bg_pill_badge_green"
+                        android:orientation="horizontal"
+                        android:paddingStart="9dp"
+                        android:paddingEnd="9dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/tv_payout_status_badge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ادا شدہ"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:textColor="#16A34A"
+                            android:fontFamily="@font/noto_nastaliq_urdu"
+                            android:includeFontPadding="false" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

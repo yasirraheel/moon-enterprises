@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -113,11 +114,18 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
     // ===== Social Proof Cards =====
     private TextView tvActiveUsers;
+    private TextView tvOnlineTitle;
+    private TextView tvOnlineSubtitle;
     private TextView tvPayoutAlert;
+    private TextView tvPayoutSubtitle;
+    private TextView tvPayoutStatusBadge;
+    private ImageView ivTransactionType;
+    private FrameLayout layoutTransactionIconBg;
+    private LinearLayout layoutPayoutBadge;
     private android.os.Handler socialProofHandler;
     private Runnable activeUsersRunnable;
     private Runnable payoutAlertRunnable;
-    private int activeUserCount = 200;
+    private int activeUserCount = 448;
 
 
     @Override
@@ -301,7 +309,14 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
         // Social Proof Cards (above WhatsApp button)
         tvActiveUsers = findViewById(R.id.tv_active_users);
+        tvOnlineTitle = findViewById(R.id.tv_online_title);
+        tvOnlineSubtitle = findViewById(R.id.tv_online_subtitle);
         tvPayoutAlert = findViewById(R.id.tv_payout_alert);
+        tvPayoutSubtitle = findViewById(R.id.tv_payout_subtitle);
+        tvPayoutStatusBadge = findViewById(R.id.tv_payout_status_badge);
+        ivTransactionType = findViewById(R.id.iv_transaction_type);
+        layoutTransactionIconBg = findViewById(R.id.layout_transaction_icon_bg);
+        layoutPayoutBadge = findViewById(R.id.layout_payout_badge);
         startSocialProofUpdates();
     }
     
@@ -350,10 +365,24 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         
         // Get drawer header view
         drawerHeaderView = navigationView.getHeaderView(0);
-        ivDrawerAvatar = drawerHeaderView.findViewById(R.id.iv_drawer_avatar);
-        tvDrawerUserName = drawerHeaderView.findViewById(R.id.tv_drawer_user_name);
-        tvDrawerUserPhone = drawerHeaderView.findViewById(R.id.tv_drawer_user_phone);
-        tvDrawerBalance = drawerHeaderView.findViewById(R.id.tv_drawer_balance);
+        if (drawerHeaderView != null) {
+            int statusBarHeight = WindowInsetsHelper.getStatusBarHeight(this);
+            int baseTopPadding = (int) (18 * getResources().getDisplayMetrics().density);
+            if (statusBarHeight > 0) {
+                drawerHeaderView.setPadding(
+                    drawerHeaderView.getPaddingLeft(),
+                    baseTopPadding + statusBarHeight,
+                    drawerHeaderView.getPaddingRight(),
+                    drawerHeaderView.getPaddingBottom()
+                );
+            }
+            WindowInsetsHelper.applyStatusBarPaddingSimple(this, drawerHeaderView);
+
+            ivDrawerAvatar = drawerHeaderView.findViewById(R.id.iv_drawer_avatar);
+            tvDrawerUserName = drawerHeaderView.findViewById(R.id.tv_drawer_user_name);
+            tvDrawerUserPhone = drawerHeaderView.findViewById(R.id.tv_drawer_user_phone);
+            tvDrawerBalance = drawerHeaderView.findViewById(R.id.tv_drawer_balance);
+        }
         
         // Update drawer header with user info
         updateDrawerHeader();
@@ -527,6 +556,21 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                 }
                 if (btnVideoGuide != null) {
                     btnVideoGuide.setTypeface(nastaliq);
+                }
+                if (tvOnlineTitle != null) {
+                    tvOnlineTitle.setTypeface(nastaliq);
+                }
+                if (tvOnlineSubtitle != null) {
+                    tvOnlineSubtitle.setTypeface(nastaliq);
+                }
+                if (tvPayoutAlert != null) {
+                    tvPayoutAlert.setTypeface(nastaliq);
+                }
+                if (tvPayoutSubtitle != null) {
+                    tvPayoutSubtitle.setTypeface(nastaliq);
+                }
+                if (tvPayoutStatusBadge != null) {
+                    tvPayoutStatusBadge.setTypeface(nastaliq);
                 }
             }
         } catch (Exception e) {
@@ -1865,54 +1909,106 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         dialog.show();
     }
 
-    // ===== SOCIAL PROOF: Live Active Users + Payout Alerts =====
+    // ===== SOCIAL PROOF: Live Active Users + Withdrawals/Deposits Alert =====
     private void startSocialProofUpdates() {
         socialProofHandler = new android.os.Handler();
 
-        // Urdu names for payout alerts
+        // Realistic Urdu names for live transactions
         final String[] urduNames = {
             "احمد علی", "محمد حسن", "فاطمہ بی بی", "علی رضا", "زینب نور",
             "عمر فاروق", "عائشہ صدیق", "بلال احمد", "ماریہ خان", "طارق محمود",
             "سانا ملک", "حمزہ شیخ", "نادیہ اقبال", "عاصم رضا", "رخسانہ بیگم",
-            "داؤد انصاری", "ثناء چودھری", "کاشف امین", "پریا شاہ", "وقاص جاوید"
+            "داؤد انصاری", "ثناء چودھری", "کاشف امین", "وقاص جاوید", "شہزاد اکرم",
+            "ریحان الحق", "فرحان ملک", "انیلہ بانو", "عثمان غنی", "تنویر حیدر"
         };
-        final int[] payoutAmounts = {2000, 5000, 10000, 3000, 7500, 15000};
-        final int[] payoutIndex = {0};
+        final int[] amounts = {2000, 3500, 5000, 7500, 10000, 12000, 15000, 20000, 25000};
+        final String[] paymentMethods = {"JazzCash", "EasyPaisa", "Bank Transfer"};
+        final String[] timesAgoUrdu = {"ابھی ابھی", "1 منٹ پہلے", "2 منٹ پہلے", "چند سیکنڈ پہلے"};
+        final int[] txnIndex = {0};
         final java.util.Random random = new java.util.Random();
 
-        // ---- Card 1: Active Users counter (starts at 200, +1 or +2 every 1-3s) ----
+        // ---- Card 1: Active Users counter (starts at 448, gently fluctuates 418 - 488) ----
         activeUsersRunnable = new Runnable() {
             @Override
             public void run() {
-                int increment = 1 + random.nextInt(2); // +1 or +2
-                activeUserCount += increment;
+                // Natural fluctuation (-2 to +2)
+                int delta = random.nextInt(5) - 2;
+                activeUserCount += delta;
+                if (activeUserCount < 418) activeUserCount = 422 + random.nextInt(5);
+                if (activeUserCount > 488) activeUserCount = 484 - random.nextInt(5);
+
                 if (tvActiveUsers != null) {
-                    tvActiveUsers.setText(activeUserCount + " Online");
+                    tvActiveUsers.setText(String.valueOf(activeUserCount));
                 }
-                // Re-schedule after 1 to 3 seconds (1000ms - 3000ms)
-                long delay = 1000 + random.nextInt(2000);
+                // Re-schedule after 2.5 to 4.5 seconds
+                long delay = 2500 + random.nextInt(2000);
                 if (socialProofHandler != null) {
                     socialProofHandler.postDelayed(this, delay);
                 }
             }
         };
-        socialProofHandler.postDelayed(activeUsersRunnable, 1500);
+        socialProofHandler.postDelayed(activeUsersRunnable, 1200);
 
-        // ---- Card 2: Payout Alert rotator (Urdu names + safe NumberFormat) ----
+        // ---- Card 2: Live Activity (Alternates between Withdrawals and Deposits) ----
         payoutAlertRunnable = new Runnable() {
             @Override
             public void run() {
-                String name = urduNames[payoutIndex[0] % urduNames.length];
-                int amount = payoutAmounts[random.nextInt(payoutAmounts.length)];
+                String name = urduNames[txnIndex[0] % urduNames.length];
+                int amount = amounts[random.nextInt(amounts.length)];
+                String method = paymentMethods[random.nextInt(paymentMethods.length)];
+                String timeAgo = timesAgoUrdu[random.nextInt(timesAgoUrdu.length)];
+
                 java.text.NumberFormat nf = java.text.NumberFormat.getNumberInstance(java.util.Locale.US);
                 String formattedAmount = nf.format(amount);
-                String alertText = name + " نے Rs. " + formattedAmount + " نکالے";
-                if (tvPayoutAlert != null) {
-                    tvPayoutAlert.setText(alertText);
+
+                // Alternating: Even = Withdrawal (Green), Odd = Deposit (Blue)
+                boolean isWithdrawal = (txnIndex[0] % 2 == 0);
+
+                if (isWithdrawal) {
+                    // WITHDRAWAL (کیش آؤٹ / نکلوائے)
+                    String alertText = name + " نے " + formattedAmount + " روپے نکلوائے";
+                    String subText = "کامیاب ادائیگی (" + method + ") • " + timeAgo;
+
+                    if (tvPayoutAlert != null) tvPayoutAlert.setText(alertText);
+                    if (tvPayoutSubtitle != null) tvPayoutSubtitle.setText(subText);
+                    if (tvPayoutStatusBadge != null) {
+                        tvPayoutStatusBadge.setText("ادا شدہ");
+                        tvPayoutStatusBadge.setTextColor(0xFF16A34A); // Green #16A34A
+                    }
+                    if (layoutPayoutBadge != null) {
+                        layoutPayoutBadge.setBackgroundResource(R.drawable.bg_pill_badge_green);
+                    }
+                    if (layoutTransactionIconBg != null) {
+                        layoutTransactionIconBg.setBackgroundResource(R.drawable.bg_social_icon_green);
+                    }
+                    if (ivTransactionType != null) {
+                        ivTransactionType.setImageResource(R.drawable.ic_social_withdraw);
+                    }
+                } else {
+                    // DEPOSIT (جمع کروائے)
+                    String alertText = name + " نے " + formattedAmount + " روپے جمع کروائے";
+                    String subText = "کامیاب ڈپازٹ (" + method + ") • " + timeAgo;
+
+                    if (tvPayoutAlert != null) tvPayoutAlert.setText(alertText);
+                    if (tvPayoutSubtitle != null) tvPayoutSubtitle.setText(subText);
+                    if (tvPayoutStatusBadge != null) {
+                        tvPayoutStatusBadge.setText("موصول شدہ");
+                        tvPayoutStatusBadge.setTextColor(0xFF2563EB); // Blue #2563EB
+                    }
+                    if (layoutPayoutBadge != null) {
+                        layoutPayoutBadge.setBackgroundResource(R.drawable.bg_pill_badge_blue);
+                    }
+                    if (layoutTransactionIconBg != null) {
+                        layoutTransactionIconBg.setBackgroundResource(R.drawable.bg_social_icon_blue);
+                    }
+                    if (ivTransactionType != null) {
+                        ivTransactionType.setImageResource(R.drawable.ic_social_deposit);
+                    }
                 }
-                payoutIndex[0]++;
-                // Cycle every 3 to 5 seconds
-                long delay = 3000 + random.nextInt(2000);
+
+                txnIndex[0]++;
+                // Cycle every 3.5 to 5.5 seconds
+                long delay = 3500 + random.nextInt(2000);
                 if (socialProofHandler != null) {
                     socialProofHandler.postDelayed(this, delay);
                 }

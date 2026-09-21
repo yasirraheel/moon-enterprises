@@ -7,9 +7,8 @@
     android:orientation="vertical"
     android:paddingStart="20dp"
     android:paddingEnd="20dp"
-    android:paddingTop="24dp"
-    android:paddingBottom="16dp"
-    android:gravity="center_vertical">
+    android:paddingTop="48dp"
+    android:paddingBottom="16dp">
 
     <!-- User Avatar -->
     <androidx.cardview.widget.CardView
