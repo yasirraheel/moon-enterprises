@@ -488,41 +488,7 @@
                     android:gravity="center_vertical"
                     android:layoutDirection="ltr">
 
-                    <!-- Pulse / User Icon Container (LEFT) -->
-                    <FrameLayout
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
-                        android:background="@drawable/bg_social_icon_green"
-                        android:layout_marginEnd="12dp">
-
-                        <ImageView
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_live_pulse"
-                            android:contentDescription="Live" />
-
-                    </FrameLayout>
-
-                    <!-- Text Title (MIDDLE) -->
-                    <TextView
-                        android:id="@+id/tv_online_title"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="اس وقت آن لائن صارفین"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/text_primary"
-                        android:fontFamily="@font/noto_nastaliq_urdu"
-                        android:includeFontPadding="false"
-                        android:gravity="center_vertical|start"
-                        android:textAlignment="viewStart"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:layout_marginEnd="8dp" />
-
-                    <!-- Online Counter Pill Badge (RIGHT) -->
+                    <!-- Online Counter Pill Badge (LEFT SIDE) -->
                     <LinearLayout
                         android:id="@+id/layout_online_badge"
                         android:layout_width="wrap_content"
@@ -530,17 +496,25 @@
                         android:background="@drawable/bg_pill_badge_green"
                         android:orientation="horizontal"
                         android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:gravity="center">
+                        android:paddingEnd="12dp"
+                        android:paddingTop="6dp"
+                        android:paddingBottom="6dp"
+                        android:gravity="center_vertical"
+                        android:layout_marginEnd="12dp">
+
+                        <ImageView
+                            android:layout_width="8dp"
+                            android:layout_height="8dp"
+                            android:src="@drawable/ic_live_pulse"
+                            android:layout_marginEnd="6dp"
+                            android:contentDescription="Live" />
 
                         <TextView
                             android:id="@+id/tv_active_users"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="452"
-                            android:textSize="14sp"
+                            android:textSize="13sp"
                             android:textStyle="bold"
                             android:textColor="#059669" />
 
@@ -553,6 +527,23 @@
                             android:textColor="#059669" />
 
                     </LinearLayout>
+
+                    <!-- Text Title (RIGHT SIDE) -->
+                    <TextView
+                        android:id="@+id/tv_online_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="اس وقت آن لائن صارفین"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary"
+                        android:fontFamily="@font/noto_nastaliq_urdu"
+                        android:includeFontPadding="false"
+                        android:gravity="center_vertical|end"
+                        android:textAlignment="viewEnd"
+                        android:ellipsize="end"
+                        android:maxLines="1" />
 
                 </LinearLayout>
 
@@ -598,41 +589,28 @@
                     </FrameLayout>
 
                     <!-- Text Column -->
-                    <LinearLayout
+                    <FrameLayout
                         android:id="@+id/layout_payout_text_container"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center_vertical">
+                        android:layout_gravity="center_vertical">
 
                         <TextView
                             android:id="@+id/tv_payout_alert"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="احمد علی نے 5,000 روپے نکلوائے"
+                            android:layout_gravity="center_vertical"
+                            android:text="احمد علی نے ابھی ابھی 5,000 روپے نکلوائے"
                             android:textSize="13sp"
                             android:textStyle="bold"
                             android:textColor="@color/text_primary"
                             android:fontFamily="@font/noto_nastaliq_urdu"
                             android:includeFontPadding="false"
-                            android:lineSpacingExtra="2dp"
                             android:ellipsize="end"
                             android:maxLines="1" />
 
-                        <TextView
-                            android:id="@+id/tv_payout_subtitle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="ابھی ابھی"
-                            android:textSize="11sp"
-                            android:textColor="@color/text_secondary"
-                            android:fontFamily="@font/noto_nastaliq_urdu"
-                            android:includeFontPadding="false"
-                            android:ellipsize="end"
-                            android:maxLines="1" />
-
-                    </LinearLayout>
+                    </FrameLayout>
 
                 </LinearLayout>
 

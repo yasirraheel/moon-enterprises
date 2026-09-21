@@ -116,10 +116,9 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     private TextView tvActiveUsers;
     private TextView tvOnlineTitle;
     private TextView tvPayoutAlert;
-    private TextView tvPayoutSubtitle;
     private ImageView ivTransactionType;
     private FrameLayout layoutTransactionIconBg;
-    private LinearLayout layoutPayoutTextContainer;
+    private View layoutPayoutTextContainer;
     private android.os.Handler socialProofHandler;
     private Runnable activeUsersRunnable;
     private Runnable payoutAlertRunnable;
@@ -309,7 +308,6 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         tvActiveUsers = findViewById(R.id.tv_active_users);
         tvOnlineTitle = findViewById(R.id.tv_online_title);
         tvPayoutAlert = findViewById(R.id.tv_payout_alert);
-        tvPayoutSubtitle = findViewById(R.id.tv_payout_subtitle);
         ivTransactionType = findViewById(R.id.iv_transaction_type);
         layoutTransactionIconBg = findViewById(R.id.layout_transaction_icon_bg);
         layoutPayoutTextContainer = findViewById(R.id.layout_payout_text_container);
@@ -558,9 +556,6 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                 }
                 if (tvPayoutAlert != null) {
                     tvPayoutAlert.setTypeface(nastaliq);
-                }
-                if (tvPayoutSubtitle != null) {
-                    tvPayoutSubtitle.setTypeface(nastaliq);
                 }
             }
         } catch (Exception e) {
@@ -1938,16 +1933,16 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                 if (tvActiveUsers != null) {
                     tvActiveUsers.setText(String.valueOf(activeUserCount));
                 }
-                // Re-schedule after 2.5 to 4.5 seconds
-                long delay = 2500 + random.nextInt(2000);
+                // Re-schedule after 5 to 8 seconds
+                long delay = 5000 + random.nextInt(3000);
                 if (socialProofHandler != null) {
                     socialProofHandler.postDelayed(this, delay);
                 }
             }
         };
-        socialProofHandler.postDelayed(activeUsersRunnable, 1200);
+        socialProofHandler.postDelayed(activeUsersRunnable, 1500);
 
-        // ---- Card 2: Live Activity (Alternates between Withdrawals and Deposits with smooth bottom-to-top animation) ----
+        // ---- Card 2: Live Activity (Alternates between Withdrawals and Deposits with smooth, graceful bottom-to-top animation) ----
         payoutAlertRunnable = new Runnable() {
             @Override
             public void run() {
@@ -1961,21 +1956,20 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                 // Alternating: Even = Withdrawal (Green), Odd = Deposit (Blue)
                 boolean isWithdrawal = (txnIndex[0] % 2 == 0);
                 String alertText = isWithdrawal ?
-                        (name + " نے " + formattedAmount + " روپے نکلوائے") :
-                        (name + " نے " + formattedAmount + " روپے جمع کروائے");
+                        (name + " نے " + timeAgo + " " + formattedAmount + " روپے نکلوائے") :
+                        (name + " نے " + timeAgo + " " + formattedAmount + " روپے جمع کروائے");
 
                 if (layoutPayoutTextContainer != null) {
-                    // 1. Current text smoothly slides UP and fades out
-                    float slideOffset = 28f;
+                    // 1. Current text gracefully slides UP and fades out (380ms)
+                    float slideOffset = 30f;
                     layoutPayoutTextContainer.animate()
                         .translationY(-slideOffset)
                         .alpha(0f)
-                        .setDuration(220)
-                        .setInterpolator(new android.view.animation.AccelerateInterpolator())
+                        .setDuration(380)
+                        .setInterpolator(new android.view.animation.AccelerateInterpolator(1.2f))
                         .withEndAction(() -> {
                             // 2. Set new content while hidden
                             if (tvPayoutAlert != null) tvPayoutAlert.setText(alertText);
-                            if (tvPayoutSubtitle != null) tvPayoutSubtitle.setText(timeAgo);
 
                             if (isWithdrawal) {
                                 if (layoutTransactionIconBg != null) {
@@ -1997,41 +1991,40 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                             layoutPayoutTextContainer.setTranslationY(slideOffset);
                             layoutPayoutTextContainer.setAlpha(0f);
 
-                            // 4. Smoothly slide IN from bottom to 0 with natural deceleration
+                            // 4. Smoothly and gently glide IN from bottom to 0 with decelerate curve (550ms)
                             layoutPayoutTextContainer.animate()
                                 .translationY(0f)
                                 .alpha(1f)
-                                .setDuration(340)
-                                .setInterpolator(new android.view.animation.DecelerateInterpolator(1.6f))
+                                .setDuration(550)
+                                .setInterpolator(new android.view.animation.DecelerateInterpolator(2.0f))
                                 .start();
 
-                            // Subtle icon bounce pop
+                            // Soft icon settle
                             if (layoutTransactionIconBg != null) {
-                                layoutTransactionIconBg.setScaleX(0.72f);
-                                layoutTransactionIconBg.setScaleY(0.72f);
+                                layoutTransactionIconBg.setScaleX(0.78f);
+                                layoutTransactionIconBg.setScaleY(0.78f);
                                 layoutTransactionIconBg.animate()
                                     .scaleX(1f)
                                     .scaleY(1f)
-                                    .setDuration(360)
-                                    .setInterpolator(new android.view.animation.OvershootInterpolator(1.3f))
+                                    .setDuration(500)
+                                    .setInterpolator(new android.view.animation.OvershootInterpolator(1.2f))
                                     .start();
                             }
                         })
                         .start();
                 } else {
                     if (tvPayoutAlert != null) tvPayoutAlert.setText(alertText);
-                    if (tvPayoutSubtitle != null) tvPayoutSubtitle.setText(timeAgo);
                 }
 
                 txnIndex[0]++;
-                // Cycle every 3.5 to 5.5 seconds
-                long delay = 3500 + random.nextInt(2000);
+                // Less frequent cycle: 8 to 12 seconds between transitions
+                long delay = 8000 + random.nextInt(4000);
                 if (socialProofHandler != null) {
                     socialProofHandler.postDelayed(this, delay);
                 }
             }
         };
-        socialProofHandler.postDelayed(payoutAlertRunnable, 2000);
+        socialProofHandler.postDelayed(payoutAlertRunnable, 4000);
     }
 
     @Override
