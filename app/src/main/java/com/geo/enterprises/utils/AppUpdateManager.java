@@ -295,7 +295,7 @@ public class AppUpdateManager {
                 linkToCopy = versionData.getDownloadLink();
             } else {
                 // Fallback to a default link or message
-                linkToCopy = "https://geoenterprises.org"; // You can change this to your actual website
+                linkToCopy = "https://moonenterprises.net"; // You can change this to your actual website
             }
             
             // Copy to clipboard

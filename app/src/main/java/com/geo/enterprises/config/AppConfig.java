@@ -13,7 +13,7 @@ public class AppConfig {
      * Main server domain
      * Change this for production/staging/development environments
      */
-    private static final String SERVER_DOMAIN = "https://geoenterprises.org";
+    private static final String SERVER_DOMAIN = "https://moonenterprises.net";
     
     /**
      * API Base URL
@@ -44,7 +44,7 @@ public class AppConfig {
     /**
      * User-Agent header for API requests
      */
-    public static final String USER_AGENT = "GEO-ENTERPRISES-Android/" + APP_VERSION;
+    public static final String USER_AGENT = "MOON-ENTERPRISES-Android/" + APP_VERSION;
     
     
     // ========== HELPER METHODS ==========
