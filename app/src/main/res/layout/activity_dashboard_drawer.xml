@@ -494,7 +494,7 @@
                         android:layout_toStartOf="@id/layout_online_badge"
                         android:layout_marginEnd="12dp"
                         android:text="Active Online Users"
-                        android:textSize="15sp"
+                        android:textSize="16.5sp"
                         android:textStyle="bold"
                         android:textColor="#1F2937"
                         android:includeFontPadding="false"
@@ -529,7 +529,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="452"
-                            android:textSize="17sp"
+                            android:textSize="19sp"
                             android:textStyle="bold"
                             android:textColor="#FFFFFF"
                             android:letterSpacing="0.02" />
@@ -538,7 +538,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=" Online"
-                            android:textSize="13sp"
+                            android:textSize="14sp"
                             android:textStyle="bold"
                             android:textColor="#D1FAE5" />
 
@@ -592,7 +592,7 @@
                             android:layout_alignParentStart="true"
                             android:layout_alignParentTop="true"
                             android:text="Ahmed Ali withdrew Rs. 5,000"
-                            android:textSize="14sp"
+                            android:textSize="15.5sp"
                             android:textColor="#1F2937"
                             android:includeFontPadding="false"
                             android:lineSpacingExtra="2dp" />
@@ -606,7 +606,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_marginTop="4dp"
                             android:text="just now"
-                            android:textSize="11.5sp"
+                            android:textSize="12.5sp"
                             android:textColor="#6B7280"
                             android:textAlignment="viewEnd"
                             android:gravity="end"
