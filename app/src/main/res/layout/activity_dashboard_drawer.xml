@@ -474,84 +474,77 @@
                 android:layout_marginBottom="6dp"
                 android:clipChildren="false">
 
-                <com.google.android.material.card.MaterialCardView
+                <RelativeLayout
                     android:id="@+id/card_active_users"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="4dp"
-                    app:cardBackgroundColor="@android:color/transparent"
-                    app:strokeWidth="0dp">
+                    android:background="@drawable/bg_card_online_premium"
+                    android:elevation="4dp"
+                    android:outlineProvider="background"
+                    android:clipToOutline="true"
+                    android:padding="14dp">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
+                    <!-- LEFT: Title in English -->
+                    <TextView
+                        android:id="@+id/tv_online_title"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_card_online_premium"
-                        android:padding="14dp">
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@id/layout_online_badge"
+                        android:layout_marginEnd="12dp"
+                        android:text="Active Online Users"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="#1F2937"
+                        android:includeFontPadding="false"
+                        android:gravity="center_vertical|start"
+                        android:textAlignment="viewStart" />
 
-                        <!-- LEFT: Title in English -->
+                    <!-- RIGHT: Premium Emerald Count Capsule -->
+                    <LinearLayout
+                        android:id="@+id/layout_online_badge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/bg_online_count_capsule"
+                        android:orientation="horizontal"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="14dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:gravity="center_vertical">
+
+                        <!-- Pulsing Live Dot -->
+                        <View
+                            android:id="@+id/view_pulse_dot"
+                            android:layout_width="8dp"
+                            android:layout_height="8dp"
+                            android:background="@drawable/bg_online_pulse_dot"
+                            android:layout_marginEnd="8dp" />
+
                         <TextView
-                            android:id="@+id/tv_online_title"
+                            android:id="@+id/tv_active_users"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_centerVertical="true"
-                            android:layout_toStartOf="@id/layout_online_badge"
-                            android:layout_marginEnd="12dp"
-                            android:text="Active Online Users"
-                            android:textSize="15sp"
+                            android:text="452"
+                            android:textSize="17sp"
                             android:textStyle="bold"
-                            android:textColor="#1F2937"
-                            android:includeFontPadding="false"
-                            android:gravity="center_vertical|start"
-                            android:textAlignment="viewStart" />
+                            android:textColor="#FFFFFF"
+                            android:letterSpacing="0.02" />
 
-                        <!-- RIGHT: Premium Emerald Count Capsule -->
-                        <LinearLayout
-                            android:id="@+id/layout_online_badge"
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:background="@drawable/bg_online_count_capsule"
-                            android:orientation="horizontal"
-                            android:paddingStart="12dp"
-                            android:paddingEnd="14dp"
-                            android:paddingTop="8dp"
-                            android:paddingBottom="8dp"
-                            android:gravity="center_vertical">
+                            android:text=" Online"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:textColor="#D1FAE5" />
 
-                            <!-- Pulsing Live Dot -->
-                            <View
-                                android:id="@+id/view_pulse_dot"
-                                android:layout_width="8dp"
-                                android:layout_height="8dp"
-                                android:background="@drawable/bg_online_pulse_dot"
-                                android:layout_marginEnd="8dp" />
+                    </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/tv_active_users"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="452"
-                                android:textSize="17sp"
-                                android:textStyle="bold"
-                                android:textColor="#FFFFFF"
-                                android:letterSpacing="0.02" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=" Online"
-                                android:textSize="13sp"
-                                android:textStyle="bold"
-                                android:textColor="#D1FAE5" />
-
-                        </LinearLayout>
-
-                    </RelativeLayout>
-
-                </com.google.android.material.card.MaterialCardView>
+                </RelativeLayout>
 
                 <!-- Illuminating Running Border -->
                 <com.geo.enterprises.views.AnimatedBorderView
@@ -569,66 +562,59 @@
                 android:layout_marginBottom="12dp"
                 android:clipChildren="false">
 
-                <com.google.android.material.card.MaterialCardView
+                <!-- Static card background that stays permanently fixed -->
+                <RelativeLayout
                     android:id="@+id/card_payout_alert"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="4dp"
-                    app:cardBackgroundColor="@android:color/transparent"
-                    app:strokeWidth="0dp">
+                    android:background="@drawable/bg_card_transaction_premium"
+                    android:elevation="4dp"
+                    android:outlineProvider="background"
+                    android:clipToOutline="true"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="10dp"
+                    android:layoutDirection="ltr">
 
-                    <!-- Static card background that stays permanently fixed -->
+                    <!-- Inner container with transparent background that only holds and animates the text -->
                     <RelativeLayout
+                        android:id="@+id/layout_payout_text_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_card_transaction_premium"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:paddingTop="12dp"
-                        android:paddingBottom="10dp"
-                        android:layoutDirection="ltr">
+                        android:background="@android:color/transparent">
 
-                        <!-- Inner container with transparent background that only holds and animates the text -->
-                        <RelativeLayout
-                            android:id="@+id/layout_payout_text_container"
+                        <!-- Main Transaction Text on Left / Top -->
+                        <TextView
+                            android:id="@+id/tv_payout_alert"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@android:color/transparent">
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:text="Ahmed Ali withdrew Rs. 5,000"
+                            android:textSize="14sp"
+                            android:textColor="#1F2937"
+                            android:includeFontPadding="false"
+                            android:lineSpacingExtra="2dp" />
 
-                            <!-- Main Transaction Text on Left / Top -->
-                            <TextView
-                                android:id="@+id/tv_payout_alert"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
-                                android:layout_alignParentTop="true"
-                                android:text="Ahmed Ali withdrew Rs. 5,000"
-                                android:textSize="14sp"
-                                android:textColor="#1F2937"
-                                android:includeFontPadding="false"
-                                android:lineSpacingExtra="2dp" />
-
-                            <!-- Timestamp strictly anchored to Bottom-Right Corner -->
-                            <TextView
-                                android:id="@+id/tv_payout_time"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/tv_payout_alert"
-                                android:layout_alignParentEnd="true"
-                                android:layout_marginTop="4dp"
-                                android:text="just now"
-                                android:textSize="11.5sp"
-                                android:textColor="#6B7280"
-                                android:textAlignment="viewEnd"
-                                android:gravity="end"
-                                android:includeFontPadding="false" />
-
-                        </RelativeLayout>
+                        <!-- Timestamp strictly anchored to Bottom-Right Corner -->
+                        <TextView
+                            android:id="@+id/tv_payout_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_payout_alert"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="4dp"
+                            android:text="just now"
+                            android:textSize="11.5sp"
+                            android:textColor="#6B7280"
+                            android:textAlignment="viewEnd"
+                            android:gravity="end"
+                            android:includeFontPadding="false" />
 
                     </RelativeLayout>
 
-                </com.google.android.material.card.MaterialCardView>
+                </RelativeLayout>
 
                 <!-- Illuminating Running Border -->
                 <com.geo.enterprises.views.AnimatedBorderView

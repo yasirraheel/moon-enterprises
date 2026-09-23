@@ -35,8 +35,8 @@ public class AnimatedBorderView extends View {
 
     private void init() {
         float density = getResources().getDisplayMetrics().density;
-        cornerRadius = 16f * density;
         borderWidth = 2f * density;
+        cornerRadius = (16f * density) - (borderWidth / 2f);
         borderPaint.setStyle(Paint.Style.STROKE);
         borderPaint.setStrokeWidth(borderWidth);
         setClickable(false);
