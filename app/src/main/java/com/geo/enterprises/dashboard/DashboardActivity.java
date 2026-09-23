@@ -116,6 +116,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     private TextView tvActiveUsers;
     private TextView tvOnlineTitle;
     private TextView tvPayoutAlert;
+    private TextView tvPayoutTime;
     private View layoutPayoutTextContainer;
     private android.os.Handler socialProofHandler;
     private Runnable activeUsersRunnable;
@@ -308,6 +309,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         tvActiveUsers = findViewById(R.id.tv_active_users);
         tvOnlineTitle = findViewById(R.id.tv_online_title);
         tvPayoutAlert = findViewById(R.id.tv_payout_alert);
+        tvPayoutTime = findViewById(R.id.tv_payout_time);
         layoutPayoutTextContainer = findViewById(R.id.layout_payout_text_container);
 
         // Illuminating border animations
@@ -1971,12 +1973,12 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                 // Alternating: Even = Withdrawal (Green), Odd = Deposit (Blue)
                 boolean isWithdrawal = (txnIndex[0] % 2 == 0);
 
-                // Build styled text with SpannableString in English
+                // Build styled main transaction text with SpannableString in English
                 String action = isWithdrawal ? " withdrew " : " deposited ";
                 String currencyAmount = "Rs. " + formattedAmount;
-                String fullText = name + action + currencyAmount + " " + timeAgo;
+                String mainText = name + action + currencyAmount;
 
-                android.text.SpannableString spannable = new android.text.SpannableString(fullText);
+                android.text.SpannableString spannable = new android.text.SpannableString(mainText);
 
                 // Style the name — bold + accent color
                 int nameEnd = name.length();
@@ -1985,18 +1987,11 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                 spannable.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, nameEnd, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                 // Style the amount (e.g. Rs. 5,000) — bold + dark
-                int amountStart = fullText.indexOf(currencyAmount);
+                int amountStart = mainText.indexOf(currencyAmount);
                 if (amountStart >= 0) {
                     int amountEnd = amountStart + currencyAmount.length();
                     spannable.setSpan(new android.text.style.ForegroundColorSpan(0xFF111827), amountStart, amountEnd, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     spannable.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), amountStart, amountEnd, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                }
-
-                // Style the time — prominent secondary color
-                int timeStart = fullText.indexOf(timeAgo);
-                if (timeStart >= 0) {
-                    int timeEnd = timeStart + timeAgo.length();
-                    spannable.setSpan(new android.text.style.ForegroundColorSpan(0xFF374151), timeStart, timeEnd, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
 
                 if (layoutPayoutTextContainer != null) {
@@ -2010,6 +2005,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                         .withEndAction(() -> {
                             // 2. Set new styled content while hidden
                             if (tvPayoutAlert != null) tvPayoutAlert.setText(spannable);
+                            if (tvPayoutTime != null) tvPayoutTime.setText(timeAgo);
 
                             // 3. Position below (ready to slide in from bottom)
                             layoutPayoutTextContainer.setTranslationY(slideOffset);
@@ -2026,6 +2022,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                         .start();
                 } else {
                     if (tvPayoutAlert != null) tvPayoutAlert.setText(spannable);
+                    if (tvPayoutTime != null) tvPayoutTime.setText(timeAgo);
                 }
 
                 txnIndex[0]++;

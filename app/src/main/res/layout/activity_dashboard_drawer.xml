@@ -586,31 +586,43 @@
                         android:orientation="horizontal"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
-                        android:paddingTop="14dp"
-                        android:paddingBottom="14dp"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="10dp"
                         android:gravity="center_vertical"
                         android:layoutDirection="ltr">
 
                         <!-- Text Column -->
-                        <FrameLayout
+                        <LinearLayout
                             android:id="@+id/layout_payout_text_container"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical">
+                            android:orientation="vertical">
 
+                            <!-- Main Transaction Text -->
                             <TextView
                                 android:id="@+id/tv_payout_alert"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="center_vertical"
-                                android:text="Ahmed Ali withdrew Rs. 5,000 just now"
+                                android:text="Ahmed Ali withdrew Rs. 5,000"
                                 android:textSize="14sp"
                                 android:textColor="#1F2937"
                                 android:includeFontPadding="false"
-                                android:lineSpacingExtra="3dp" />
+                                android:lineSpacingExtra="2dp" />
 
-                        </FrameLayout>
+                            <!-- Bottom Right Timestamp (like Facebook comment time) -->
+                            <TextView
+                                android:id="@+id/tv_payout_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:layout_marginTop="3dp"
+                                android:text="just now"
+                                android:textSize="11.5sp"
+                                android:textStyle="normal"
+                                android:textColor="#6B7280"
+                                android:includeFontPadding="false" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
