@@ -43,16 +43,16 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/ic_arrow_forward"
+                android:src="@drawable/ic_person_add"
                 android:tint="@color/white"
                 android:layout_marginEnd="8dp"
-                android:contentDescription="Share icon" />
+                android:contentDescription="Invite Friends icon" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Share App"
+                android:text="Invite Friends"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -117,7 +117,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Share this amazing app with your friends and family! Get the latest features and updates for prize bond booking and management."
+                android:text="Invite your friends and family to join Moon Enterprises! Enjoy fast prize bond booking, live results, and instant withdrawals."
                 android:textSize="12sp"
                 android:textColor="@color/text_primary"
                 android:lineSpacingExtra="1dp"
@@ -194,12 +194,12 @@
             android:id="@+id/btn_share"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="Share"
+            android:text="Invite Friends"
             android:textColor="@color/white"
             android:textSize="12sp"
             android:backgroundTint="@color/primary_color"
             app:cornerRadius="8dp"
-            app:icon="@drawable/ic_arrow_forward"
+            app:icon="@drawable/ic_person_add"
             app:iconTint="@color/white"
             app:iconSize="14dp"
             android:layout_marginBottom="8dp"

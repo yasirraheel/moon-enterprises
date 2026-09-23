@@ -313,9 +313,9 @@ public class AppUpdateManager {
 
         
         btnShare.setOnClickListener(v -> {
-            String shareText = "🚀 Check out Moon Enterprises App!\n\n" +
+            String shareText = "🚀 Join me on Moon Enterprises App!\n\n" +
                     "📱 Prize Bond Booking & Management\n" +
-                    "💰 Easy Deposits & Withdrawals\n" +
+                    "💰 Fast Deposits & Withdrawals\n" +
                     "🎯 Real-time Notifications\n\n";
             
             if (versionData != null && versionData.getDownloadLink() != null && !versionData.getDownloadLink().isEmpty()) {
@@ -327,10 +327,10 @@ public class AppUpdateManager {
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
             shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Moon Enterprises App");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Invite to Moon Enterprises App");
             
             // Create chooser to show all available apps
-            Intent chooserIntent = Intent.createChooser(shareIntent, "Share App via");
+            Intent chooserIntent = Intent.createChooser(shareIntent, "Invite Friends via");
             context.startActivity(chooserIntent);
             dialog.dismiss();
         });

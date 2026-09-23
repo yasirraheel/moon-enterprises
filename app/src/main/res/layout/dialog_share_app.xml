@@ -39,16 +39,16 @@
         <ImageView
             android:layout_width="@dimen/dialog_header_icon_size"
             android:layout_height="@dimen/dialog_header_icon_size"
-            android:src="@drawable/ic_arrow_forward"
+            android:src="@drawable/ic_person_add"
             android:tint="@color/white"
             android:layout_marginEnd="@dimen/dialog_header_icon_margin"
-            android:contentDescription="Share icon" />
+            android:contentDescription="Invite Friends icon" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Share App"
+            android:text="Invite Friends"
             android:textColor="@color/white"
             android:textSize="@dimen/dialog_header_text_size"
             android:textStyle="bold"
@@ -116,7 +116,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Share this amazing app with your friends and family! Get the latest features and updates for prize bond booking and management."
+            android:text="Invite your friends and family to join Moon Enterprises! Enjoy fast prize bond booking, live results, and instant withdrawals."
             android:textSize="@dimen/dialog_description_text_size"
             android:textColor="@color/text_primary"
             android:lineSpacingExtra="@dimen/dialog_text_line_spacing"
@@ -221,12 +221,12 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dialog_button_height"
                 android:layout_weight="1"
-                android:text="Share"
+                android:text="Invite Friends"
                 android:textColor="@color/white"
                 android:textSize="@dimen/dialog_button_text_size"
                 android:backgroundTint="@color/primary_color"
                 app:cornerRadius="@dimen/dialog_button_corner_radius"
-                app:icon="@drawable/ic_arrow_forward"
+                app:icon="@drawable/ic_person_add"
                 app:iconTint="@color/white"
                 app:iconSize="@dimen/dialog_button_icon_size"
                 android:maxLines="1"
