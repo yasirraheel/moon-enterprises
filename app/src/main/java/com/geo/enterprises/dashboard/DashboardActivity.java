@@ -116,8 +116,6 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     private TextView tvActiveUsers;
     private TextView tvOnlineTitle;
     private TextView tvPayoutAlert;
-    private ImageView ivTransactionType;
-    private FrameLayout layoutTransactionIconBg;
     private View layoutPayoutTextContainer;
     private android.os.Handler socialProofHandler;
     private Runnable activeUsersRunnable;
@@ -310,8 +308,6 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         tvActiveUsers = findViewById(R.id.tv_active_users);
         tvOnlineTitle = findViewById(R.id.tv_online_title);
         tvPayoutAlert = findViewById(R.id.tv_payout_alert);
-        ivTransactionType = findViewById(R.id.iv_transaction_type);
-        layoutTransactionIconBg = findViewById(R.id.layout_transaction_icon_bg);
         layoutPayoutTextContainer = findViewById(R.id.layout_payout_text_container);
 
         // Illuminating border animations
@@ -2015,22 +2011,6 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                             // 2. Set new styled content while hidden
                             if (tvPayoutAlert != null) tvPayoutAlert.setText(spannable);
 
-                            if (isWithdrawal) {
-                                if (layoutTransactionIconBg != null) {
-                                    layoutTransactionIconBg.setBackgroundResource(R.drawable.bg_transaction_icon_withdraw);
-                                }
-                                if (ivTransactionType != null) {
-                                    ivTransactionType.setImageResource(R.drawable.ic_withdraw_white);
-                                }
-                            } else {
-                                if (layoutTransactionIconBg != null) {
-                                    layoutTransactionIconBg.setBackgroundResource(R.drawable.bg_transaction_icon_deposit);
-                                }
-                                if (ivTransactionType != null) {
-                                    ivTransactionType.setImageResource(R.drawable.ic_deposit_white);
-                                }
-                            }
-
                             // 3. Position below (ready to slide in from bottom)
                             layoutPayoutTextContainer.setTranslationY(slideOffset);
                             layoutPayoutTextContainer.setAlpha(0f);
@@ -2042,18 +2022,6 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                                 .setDuration(550)
                                 .setInterpolator(new android.view.animation.DecelerateInterpolator(2.0f))
                                 .start();
-
-                            // Soft icon settle
-                            if (layoutTransactionIconBg != null) {
-                                layoutTransactionIconBg.setScaleX(0.78f);
-                                layoutTransactionIconBg.setScaleY(0.78f);
-                                layoutTransactionIconBg.animate()
-                                    .scaleX(1f)
-                                    .scaleY(1f)
-                                    .setDuration(500)
-                                    .setInterpolator(new android.view.animation.OvershootInterpolator(1.2f))
-                                    .start();
-                            }
                         })
                         .start();
                 } else {
