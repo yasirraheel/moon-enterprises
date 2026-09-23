@@ -566,12 +566,6 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                 if (btnVideoGuide != null) {
                     btnVideoGuide.setTypeface(nastaliq);
                 }
-                if (tvOnlineTitle != null) {
-                    tvOnlineTitle.setTypeface(nastaliq);
-                }
-                if (tvPayoutAlert != null) {
-                    tvPayoutAlert.setTypeface(nastaliq);
-                }
             }
         } catch (Exception e) {
             android.util.Log.e("UrduFont", "Failed to load Noto Nastaliq font: " + e.getMessage());
@@ -1923,24 +1917,24 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
             pulseAnim.start();
         }
 
-        // Realistic Urdu names for live transactions
-        final String[] urduNames = {
-            "احمد علی", "محمد حسن", "فاطمہ بی بی", "علی رضا", "زینب نور",
-            "عمر فاروق", "عائشہ صدیق", "بلال احمد", "ماریہ خان", "طارق محمود",
-            "سانا ملک", "حمزہ شیخ", "نادیہ اقبال", "عاصم رضا", "رخسانہ بیگم",
-            "داؤد انصاری", "ثناء چودھری", "کاشف امین", "وقاص جاوید", "شہزاد اکرم",
-            "ریحان الحق", "فرحان ملک", "انیلہ بانو", "عثمان غنی", "تنویر حیدر"
+        // Realistic names for live transactions
+        final String[] transactionNames = {
+            "Ahmed Ali", "Muhammad Hassan", "Fatima Bibi", "Ali Raza", "Zainab Noor",
+            "Umar Farooq", "Ayesha Siddique", "Bilal Ahmed", "Maria Khan", "Tariq Mahmood",
+            "Sana Malik", "Hamza Sheikh", "Nadia Iqbal", "Asim Raza", "Rukhsana Begum",
+            "Dawood Ansari", "Sana Chaudhry", "Kashif Ameen", "Waqas Javed", "Shehzad Akram",
+            "Rehan-ul-Haq", "Farhan Malik", "Aneela Bano", "Usman Ghani", "Tanveer Haider"
         };
         final int[] amounts = {2000, 3500, 5000, 7500, 10000, 12000, 15000, 20000, 25000};
         final String[] paymentMethods = {"JazzCash", "EasyPaisa", "Bank Transfer"};
-        final String[] timesAgoUrdu = {
-            "ابھی ابھی",
-            "1 منٹ پہلے",
-            "2 منٹ پہلے",
-            "3 منٹ پہلے",
-            "4 منٹ پہلے",
-            "5 منٹ پہلے",
-            "چند لمحے پہلے"
+        final String[] timesAgo = {
+            "just now",
+            "1 min ago",
+            "2 mins ago",
+            "3 mins ago",
+            "4 mins ago",
+            "5 mins ago",
+            "a moment ago"
         };
         final int[] txnIndex = {0};
         final java.util.Random random = new java.util.Random();
@@ -1971,9 +1965,9 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         payoutAlertRunnable = new Runnable() {
             @Override
             public void run() {
-                String name = urduNames[txnIndex[0] % urduNames.length];
+                String name = transactionNames[txnIndex[0] % transactionNames.length];
                 int amount = amounts[random.nextInt(amounts.length)];
-                String timeAgo = timesAgoUrdu[random.nextInt(timesAgoUrdu.length)];
+                String timeAgo = timesAgo[random.nextInt(timesAgo.length)];
 
                 java.text.NumberFormat nf = java.text.NumberFormat.getNumberInstance(java.util.Locale.US);
                 String formattedAmount = nf.format(amount);
@@ -1981,9 +1975,10 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                 // Alternating: Even = Withdrawal (Green), Odd = Deposit (Blue)
                 boolean isWithdrawal = (txnIndex[0] % 2 == 0);
 
-                // Build styled text with SpannableString
-                String actionText = isWithdrawal ? " روپے نکلوائے" : " روپے جمع کروائے";
-                String fullText = name + " نے " + timeAgo + " " + formattedAmount + actionText;
+                // Build styled text with SpannableString in English
+                String action = isWithdrawal ? " withdrew " : " deposited ";
+                String currencyAmount = "Rs. " + formattedAmount;
+                String fullText = name + action + currencyAmount + " " + timeAgo;
 
                 android.text.SpannableString spannable = new android.text.SpannableString(fullText);
 
@@ -1993,10 +1988,10 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                 spannable.setSpan(new android.text.style.ForegroundColorSpan(nameColor), 0, nameEnd, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 spannable.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, nameEnd, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                // Style the amount — bold + dark
-                int amountStart = fullText.indexOf(formattedAmount);
+                // Style the amount (e.g. Rs. 5,000) — bold + dark
+                int amountStart = fullText.indexOf(currencyAmount);
                 if (amountStart >= 0) {
-                    int amountEnd = amountStart + formattedAmount.length();
+                    int amountEnd = amountStart + currencyAmount.length();
                     spannable.setSpan(new android.text.style.ForegroundColorSpan(0xFF111827), amountStart, amountEnd, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     spannable.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), amountStart, amountEnd, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }

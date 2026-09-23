@@ -532,7 +532,7 @@
 
                         </LinearLayout>
 
-                        <!-- RIGHT: Urdu Title -->
+                        <!-- RIGHT: Title in English -->
                         <TextView
                             android:id="@+id/tv_online_title"
                             android:layout_width="wrap_content"
@@ -541,11 +541,10 @@
                             android:layout_centerVertical="true"
                             android:layout_toEndOf="@id/layout_online_badge"
                             android:layout_marginStart="12dp"
-                            android:text="اس وقت آن لائن صارفین"
+                            android:text="Active Online Users"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:textColor="#1F2937"
-                            android:fontFamily="@font/noto_nastaliq_urdu"
                             android:includeFontPadding="false"
                             android:gravity="center_vertical|end"
                             android:textAlignment="viewEnd"
@@ -625,10 +624,9 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:text="احمد علی نے ابھی ابھی 5,000 روپے نکلوائے"
+                                android:text="Ahmed Ali withdrew Rs. 5,000 just now"
                                 android:textSize="13.5sp"
                                 android:textColor="#1F2937"
-                                android:fontFamily="@font/noto_nastaliq_urdu"
                                 android:includeFontPadding="false"
                                 android:lineSpacingExtra="2dp"
                                 android:ellipsize="end"
