@@ -7,6 +7,7 @@ import com.geo.enterprises.models.ApkVersionResponse;
 import com.geo.enterprises.models.AppSettings;
 import com.geo.enterprises.models.Deposit;
 import com.geo.enterprises.models.GameCategory;
+import com.geo.enterprises.models.LiveAlertsData;
 import com.geo.enterprises.models.LoginRequest;
 import com.geo.enterprises.models.LoginResponse;
 import com.geo.enterprises.models.Order;
@@ -35,6 +36,9 @@ public interface ApiService {
     
     @GET("settings")
     Call<ApiResponse<AppSettings>> getSettings();
+
+    @GET("live-alerts")
+    Call<ApiResponse<LiveAlertsData>> getLiveAlerts();
     
     @GET("notifications")
     Call<ApiResponse<List<NotificationItem>>> getNotifications(@Header("Authorization") String token);

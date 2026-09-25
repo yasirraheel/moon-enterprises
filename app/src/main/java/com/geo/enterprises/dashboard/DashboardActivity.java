@@ -43,6 +43,10 @@ import com.geo.enterprises.auth.LoginActivity;
 import com.geo.enterprises.models.ApiResponse;
 import com.geo.enterprises.models.AppSettings;
 import com.geo.enterprises.models.GameCategory;
+import com.geo.enterprises.models.LiveAlertsData;
+import com.geo.enterprises.models.OnlineUsersConfig;
+import com.geo.enterprises.models.TransactionAlertsConfig;
+import com.geo.enterprises.models.TransactionAlertItem;
 import com.geo.enterprises.models.User;
 import com.geo.enterprises.utils.ActivityTransitionUtils;
 import com.geo.enterprises.utils.AppUpdateManager;
@@ -113,6 +117,8 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     private SwipeRefreshLayout swipeRefresh;
 
     // ===== Social Proof Cards =====
+    private View layoutActiveUsersContainer;
+    private View layoutPayoutAlertContainer;
     private TextView tvActiveUsers;
     private TextView tvOnlineTitle;
     private TextView tvPayoutAlert;
@@ -124,6 +130,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     private int activeUserCount = 448;
     private com.geo.enterprises.views.AnimatedBorderView glowBorderOnline;
     private com.geo.enterprises.views.AnimatedBorderView glowBorderTransaction;
+    private LiveAlertsData liveAlertsData;
 
 
     @Override
@@ -306,6 +313,8 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         }
 
         // Social Proof Cards (above WhatsApp button)
+        layoutActiveUsersContainer = findViewById(R.id.layout_active_users_container);
+        layoutPayoutAlertContainer = findViewById(R.id.layout_payout_alert_container);
         tvActiveUsers = findViewById(R.id.tv_active_users);
         tvOnlineTitle = findViewById(R.id.tv_online_title);
         tvPayoutAlert = findViewById(R.id.tv_payout_alert);
@@ -325,6 +334,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         }
 
         startSocialProofUpdates();
+        fetchLiveAlerts();
     }
     
     private void setupNavigationDrawer() {
@@ -702,6 +712,9 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         // Refresh notifications count
         fetchNotificationCount();
         
+        // Refresh live activity alerts
+        fetchLiveAlerts();
+        
         // Stop refresh animation after a short delay
         new android.os.Handler().postDelayed(() -> {
             if (swipeRefresh != null) {
@@ -788,6 +801,45 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                 android.util.Log.e("Dashboard", "Failed to fetch app settings: " + t.getMessage());
             }
         });
+    }
+
+    private void fetchLiveAlerts() {
+        apiService.getLiveAlerts().enqueue(new Callback<ApiResponse<LiveAlertsData>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<LiveAlertsData>> call, Response<ApiResponse<LiveAlertsData>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    LiveAlertsData data = response.body().getData();
+                    if (data != null) {
+                        liveAlertsData = data;
+                        applyLiveAlertsData(data);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<LiveAlertsData>> call, Throwable t) {
+                android.util.Log.e("Dashboard", "Failed to fetch live alerts: " + t.getMessage());
+            }
+        });
+    }
+
+    private void applyLiveAlertsData(LiveAlertsData data) {
+        if (data == null) return;
+        OnlineUsersConfig onlineCfg = data.getOnlineUsers();
+        if (onlineCfg != null && layoutActiveUsersContainer != null) {
+            layoutActiveUsersContainer.setVisibility(onlineCfg.isEnabled() ? View.VISIBLE : View.GONE);
+            if (activeUserCount < onlineCfg.getMinCount() || activeUserCount > onlineCfg.getMaxCount()) {
+                activeUserCount = onlineCfg.getBaseCount();
+                if (tvActiveUsers != null) {
+                    tvActiveUsers.setText(String.valueOf(activeUserCount));
+                }
+            }
+        }
+
+        TransactionAlertsConfig txCfg = data.getTransactionAlerts();
+        if (txCfg != null && layoutPayoutAlertContainer != null) {
+            layoutPayoutAlertContainer.setVisibility(txCfg.isEnabled() ? View.VISIBLE : View.GONE);
+        }
     }
     
     private void checkAndShowWelcomeMessage() {
@@ -1937,21 +1989,41 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         final int[] txnIndex = {0};
         final java.util.Random random = new java.util.Random();
 
-        // ---- Card 1: Active Users counter (starts at 448, gently fluctuates 418 - 488) ----
+        // ---- Card 1: Active Users counter (starts at base count, gently fluctuates) ----
         activeUsersRunnable = new Runnable() {
             @Override
             public void run() {
-                // Natural fluctuation (-2 to +2)
-                int delta = random.nextInt(5) - 2;
-                activeUserCount += delta;
-                if (activeUserCount < 418) activeUserCount = 422 + random.nextInt(5);
-                if (activeUserCount > 488) activeUserCount = 484 - random.nextInt(5);
+                boolean enabled = true;
+                int min = 418;
+                int max = 488;
+                int intervalSec = 6;
 
-                if (tvActiveUsers != null) {
-                    tvActiveUsers.setText(String.valueOf(activeUserCount));
+                if (liveAlertsData != null && liveAlertsData.getOnlineUsers() != null) {
+                    OnlineUsersConfig cfg = liveAlertsData.getOnlineUsers();
+                    enabled = cfg.isEnabled();
+                    min = cfg.getMinCount();
+                    max = cfg.getMaxCount();
+                    intervalSec = cfg.getIntervalSeconds();
                 }
-                // Re-schedule after 5 to 8 seconds
-                long delay = 5000 + random.nextInt(3000);
+
+                if (layoutActiveUsersContainer != null) {
+                    layoutActiveUsersContainer.setVisibility(enabled ? View.VISIBLE : View.GONE);
+                }
+
+                if (enabled) {
+                    // Natural fluctuation (-2 to +2)
+                    int delta = random.nextInt(5) - 2;
+                    activeUserCount += delta;
+                    if (activeUserCount < min) activeUserCount = min + random.nextInt(Math.max(1, (max - min) / 4 + 1));
+                    if (activeUserCount > max) activeUserCount = max - random.nextInt(Math.max(1, (max - min) / 4 + 1));
+
+                    if (tvActiveUsers != null) {
+                        tvActiveUsers.setText(String.valueOf(activeUserCount));
+                    }
+                }
+
+                // Re-schedule based on interval
+                long delay = Math.max(2000, intervalSec * 1000L + (random.nextInt(2000) - 1000));
                 if (socialProofHandler != null) {
                     socialProofHandler.postDelayed(this, delay);
                 }
@@ -1959,32 +2031,76 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         };
         socialProofHandler.postDelayed(activeUsersRunnable, 1500);
 
-        // ---- Card 2: Live Activity (Alternates between Withdrawals and Deposits with smooth, graceful bottom-to-top animation) ----
+        // ---- Card 2: Live Activity (Dynamic alerts with fallback, smooth bottom-to-top animation) ----
         payoutAlertRunnable = new Runnable() {
             @Override
             public void run() {
-                String name = transactionNames[txnIndex[0] % transactionNames.length];
-                int amount = amounts[random.nextInt(amounts.length)];
-                String timeAgo = timesAgo[random.nextInt(timesAgo.length)];
+                boolean enabled = true;
+                int intervalSec = 10;
+                java.util.List<TransactionAlertItem> dynamicAlerts = null;
 
-                java.text.NumberFormat nf = java.text.NumberFormat.getNumberInstance(java.util.Locale.US);
-                String formattedAmount = nf.format(amount);
+                if (liveAlertsData != null && liveAlertsData.getTransactionAlerts() != null) {
+                    TransactionAlertsConfig txCfg = liveAlertsData.getTransactionAlerts();
+                    enabled = txCfg.isEnabled();
+                    intervalSec = txCfg.getIntervalSeconds();
+                    dynamicAlerts = txCfg.getAlerts();
+                }
 
-                // Alternating: Even = Withdrawal (Green), Odd = Deposit (Blue)
-                boolean isWithdrawal = (txnIndex[0] % 2 == 0);
+                if (layoutPayoutAlertContainer != null) {
+                    layoutPayoutAlertContainer.setVisibility(enabled ? View.VISIBLE : View.GONE);
+                }
+
+                if (!enabled) {
+                    // If disabled from admin, re-check periodically in case it gets re-enabled
+                    if (socialProofHandler != null) {
+                        socialProofHandler.postDelayed(this, 10000);
+                    }
+                    return;
+                }
+
+                String name;
+                String formattedAmount;
+                String timeAgo;
+                boolean isWithdrawal;
+                String customMsg = null;
+
+                if (dynamicAlerts != null && !dynamicAlerts.isEmpty()) {
+                    TransactionAlertItem item = dynamicAlerts.get(txnIndex[0] % dynamicAlerts.size());
+                    name = item.getName();
+                    formattedAmount = item.getFormattedAmount();
+                    timeAgo = item.getTimeAgo();
+                    isWithdrawal = item.isWithdrawal();
+                    customMsg = item.getMessage();
+                } else {
+                    // Offline fallback
+                    name = transactionNames[txnIndex[0] % transactionNames.length];
+                    int amount = amounts[random.nextInt(amounts.length)];
+                    timeAgo = timesAgo[random.nextInt(timesAgo.length)];
+                    java.text.NumberFormat nf = java.text.NumberFormat.getNumberInstance(java.util.Locale.US);
+                    formattedAmount = nf.format(amount);
+                    isWithdrawal = (txnIndex[0] % 2 == 0);
+                }
 
                 // Build styled main transaction text with SpannableString in English
-                String action = isWithdrawal ? " withdrew " : " deposited ";
                 String currencyAmount = "Rs. " + formattedAmount;
-                String mainText = name + action + currencyAmount;
+                String mainText;
+                if (customMsg != null && !customMsg.trim().isEmpty()) {
+                    mainText = customMsg.replace("{name}", name).replace("{amount}", currencyAmount);
+                } else {
+                    String action = isWithdrawal ? " withdrew " : " deposited ";
+                    mainText = name + action + currencyAmount;
+                }
 
                 android.text.SpannableString spannable = new android.text.SpannableString(mainText);
 
                 // Style the name — bold + accent color
-                int nameEnd = name.length();
-                int nameColor = isWithdrawal ? 0xFF059669 : 0xFF2563EB;
-                spannable.setSpan(new android.text.style.ForegroundColorSpan(nameColor), 0, nameEnd, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                spannable.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, nameEnd, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                int nameStart = mainText.indexOf(name);
+                if (nameStart >= 0) {
+                    int nameEnd = nameStart + name.length();
+                    int nameColor = isWithdrawal ? 0xFF059669 : 0xFF2563EB;
+                    spannable.setSpan(new android.text.style.ForegroundColorSpan(nameColor), nameStart, nameEnd, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spannable.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), nameStart, nameEnd, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
 
                 // Style the amount (e.g. Rs. 5,000) — bold + dark
                 int amountStart = mainText.indexOf(currencyAmount);
@@ -2026,8 +2142,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                 }
 
                 txnIndex[0]++;
-                // Less frequent cycle: 8 to 12 seconds between transitions
-                long delay = 8000 + random.nextInt(4000);
+                long delay = Math.max(3000, intervalSec * 1000L + (random.nextInt(3000) - 1000));
                 if (socialProofHandler != null) {
                     socialProofHandler.postDelayed(this, delay);
                 }

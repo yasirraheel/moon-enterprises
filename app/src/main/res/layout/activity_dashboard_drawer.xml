@@ -468,6 +468,7 @@
 
             <!-- ===== Social Proof Card 1: Active Online Users ===== -->
             <FrameLayout
+                android:id="@+id/layout_active_users_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -557,6 +558,7 @@
 
             <!-- ===== Social Proof Card 2: Live Activity (Withdrawals & Deposits) ===== -->
             <FrameLayout
+                android:id="@+id/layout_payout_alert_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
