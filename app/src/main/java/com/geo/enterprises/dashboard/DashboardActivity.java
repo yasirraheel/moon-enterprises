@@ -2062,29 +2062,58 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                 String formattedAmount;
                 String timeAgo;
                 boolean isWithdrawal;
+                double amount;
                 String customMsg = null;
 
                 if (dynamicAlerts != null && !dynamicAlerts.isEmpty()) {
                     TransactionAlertItem item = dynamicAlerts.get(txnIndex[0] % dynamicAlerts.size());
                     name = item.getName();
-                    formattedAmount = item.getFormattedAmount();
                     timeAgo = item.getTimeAgo();
                     isWithdrawal = item.isWithdrawal();
+                    amount = item.getAmount();
                     customMsg = item.getMessage();
                 } else {
                     // Offline fallback
                     name = transactionNames[txnIndex[0] % transactionNames.length];
-                    int amount = amounts[random.nextInt(amounts.length)];
                     timeAgo = timesAgo[random.nextInt(timesAgo.length)];
-                    java.text.NumberFormat nf = java.text.NumberFormat.getNumberInstance(java.util.Locale.US);
-                    formattedAmount = nf.format(amount);
                     isWithdrawal = (txnIndex[0] % 2 == 0);
+                    amount = amounts[random.nextInt(amounts.length)];
                 }
+
+                // Determine min and max brackets for this transaction type
+                double minBracket = isWithdrawal ? 2000 : 1000;
+                double maxBracket = isWithdrawal ? 25000 : 20000;
+                if (liveAlertsData != null && liveAlertsData.getTransactionAlerts() != null) {
+                    TransactionAlertsConfig cfg = liveAlertsData.getTransactionAlerts();
+                    if (isWithdrawal) {
+                        minBracket = cfg.getWithdrawalMinAmount();
+                        maxBracket = cfg.getWithdrawalMaxAmount();
+                    } else {
+                        minBracket = cfg.getDepositMinAmount();
+                        maxBracket = cfg.getDepositMaxAmount();
+                    }
+                }
+
+                // Ensure amount strictly honors the configured bracket
+                if (amount < minBracket || amount > maxBracket || amount <= 0) {
+                    // Generate clean round amount in steps of 500 within configured bracket
+                    long minStep = (long) Math.ceil(minBracket / 500.0);
+                    long maxStep = (long) Math.floor(maxBracket / 500.0);
+                    if (maxStep >= minStep) {
+                        long steps = maxStep - minStep + 1;
+                        amount = (minStep + random.nextInt((int) steps)) * 500;
+                    } else {
+                        amount = minBracket;
+                    }
+                }
+
+                java.text.NumberFormat nf = java.text.NumberFormat.getNumberInstance(java.util.Locale.US);
+                formattedAmount = nf.format((long) amount);
 
                 // Build styled main transaction text with SpannableString in English
                 String currencyAmount = "Rs. " + formattedAmount;
                 String mainText;
-                if (customMsg != null && !customMsg.trim().isEmpty()) {
+                if (customMsg != null && !customMsg.trim().isEmpty() && customMsg.contains("{amount}")) {
                     mainText = customMsg.replace("{name}", name).replace("{amount}", currencyAmount);
                 } else {
                     String action = isWithdrawal ? " withdrew " : " deposited ";
