@@ -9,6 +9,9 @@ public class OnlineUsersConfig {
     @SerializedName("base_count")
     private int baseCount = 452;
 
+    @SerializedName("current_count")
+    private int currentCount = 0;
+
     @SerializedName("min_count")
     private int minCount = 420;
 
@@ -32,6 +35,17 @@ public class OnlineUsersConfig {
 
     public void setBaseCount(int baseCount) {
         this.baseCount = baseCount;
+    }
+
+    public int getCurrentCount() {
+        if (currentCount > 0) {
+            return currentCount;
+        }
+        return getBaseCount();
+    }
+
+    public void setCurrentCount(int currentCount) {
+        this.currentCount = currentCount;
     }
 
     public int getMinCount() {

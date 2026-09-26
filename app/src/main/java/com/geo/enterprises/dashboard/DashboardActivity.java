@@ -127,7 +127,9 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     private android.os.Handler socialProofHandler;
     private Runnable activeUsersRunnable;
     private Runnable payoutAlertRunnable;
-    private int activeUserCount = 448;
+    private int activeUserCount = 0;
+    private int targetUserCount = 0;
+    private int stepsSinceTargetChange = 0;
     private com.geo.enterprises.views.AnimatedBorderView glowBorderOnline;
     private com.geo.enterprises.views.AnimatedBorderView glowBorderTransaction;
     private LiveAlertsData liveAlertsData;
@@ -828,8 +830,16 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         OnlineUsersConfig onlineCfg = data.getOnlineUsers();
         if (onlineCfg != null && layoutActiveUsersContainer != null) {
             layoutActiveUsersContainer.setVisibility(onlineCfg.isEnabled() ? View.VISIBLE : View.GONE);
-            if (activeUserCount < onlineCfg.getMinCount() || activeUserCount > onlineCfg.getMaxCount()) {
-                activeUserCount = onlineCfg.getBaseCount();
+            int min = onlineCfg.getMinCount();
+            int max = onlineCfg.getMaxCount();
+            if (activeUserCount < min || activeUserCount > max) {
+                int initCount = onlineCfg.getCurrentCount();
+                if (initCount < min || initCount > max) {
+                    initCount = min + (max - min) / 2;
+                }
+                activeUserCount = initCount;
+                targetUserCount = pickOnlineUsersTarget(min, max);
+                stepsSinceTargetChange = 0;
                 if (tvActiveUsers != null) {
                     tvActiveUsers.setText(String.valueOf(activeUserCount));
                 }
@@ -840,6 +850,14 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         if (txCfg != null && layoutPayoutAlertContainer != null) {
             layoutPayoutAlertContainer.setVisibility(txCfg.isEnabled() ? View.VISIBLE : View.GONE);
         }
+    }
+
+    private int pickOnlineUsersTarget(int min, int max) {
+        int range = max - min;
+        if (range <= 0) return min;
+        int margin = (int) Math.round(range * 0.08);
+        int targetSpan = Math.max(1, range - (2 * margin));
+        return min + margin + new java.util.Random().nextInt(targetSpan);
     }
     
     private void checkAndShowWelcomeMessage() {
@@ -1989,14 +2007,14 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         final int[] txnIndex = {0};
         final java.util.Random random = new java.util.Random();
 
-        // ---- Card 1: Active Users counter (starts at base count, gently fluctuates) ----
+        // ---- Card 1: Active Users counter (dynamically fluctuates across min-max bracket) ----
         activeUsersRunnable = new Runnable() {
             @Override
             public void run() {
                 boolean enabled = true;
-                int min = 418;
-                int max = 488;
-                int intervalSec = 6;
+                int min = 1900;
+                int max = 3000;
+                int intervalSec = 3;
 
                 if (liveAlertsData != null && liveAlertsData.getOnlineUsers() != null) {
                     OnlineUsersConfig cfg = liveAlertsData.getOnlineUsers();
@@ -2011,11 +2029,45 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                 }
 
                 if (enabled) {
-                    // Natural fluctuation (-2 to +2)
-                    int delta = random.nextInt(5) - 2;
+                    int range = Math.max(10, max - min);
+
+                    // Initialize count if not yet initialized or out of bounds
+                    if (activeUserCount < min || activeUserCount > max) {
+                        int starting = (liveAlertsData != null && liveAlertsData.getOnlineUsers() != null)
+                                ? liveAlertsData.getOnlineUsers().getCurrentCount()
+                                : min + (range / 2);
+                        if (starting < min || starting > max) starting = min + (range / 2);
+                        activeUserCount = starting;
+                    }
+
+                    // Choose or refresh roving target across min-max bracket
+                    stepsSinceTargetChange++;
+                    if (targetUserCount < min || targetUserCount > max
+                            || Math.abs(activeUserCount - targetUserCount) < 15
+                            || stepsSinceTargetChange >= 12
+                            || random.nextFloat() < 0.12f) {
+                        targetUserCount = pickOnlineUsersTarget(min, max);
+                        stepsSinceTargetChange = 0;
+                    }
+
+                    // Scaled step size proportional to bracket span (e.g. range 1100 -> steps between 1 and 16)
+                    int maxStep = Math.max(2, Math.min(25, range / 70));
+                    int step = 1 + random.nextInt(maxStep);
+
+                    int delta;
+                    if (activeUserCount < targetUserCount) {
+                        // Trending upwards with natural micro-pullbacks (72% up, 28% down)
+                        delta = (random.nextFloat() < 0.72f) ? step : -Math.max(1, Math.round(step * 0.45f));
+                    } else {
+                        // Trending downwards with natural micro-rallies (72% down, 28% up)
+                        delta = (random.nextFloat() < 0.72f) ? -step : Math.max(1, Math.round(step * 0.45f));
+                    }
+
                     activeUserCount += delta;
-                    if (activeUserCount < min) activeUserCount = min + random.nextInt(Math.max(1, (max - min) / 4 + 1));
-                    if (activeUserCount > max) activeUserCount = max - random.nextInt(Math.max(1, (max - min) / 4 + 1));
+
+                    // Strictly bound inside [min, max]
+                    if (activeUserCount < min) activeUserCount = min + random.nextInt(Math.min(5, range));
+                    if (activeUserCount > max) activeUserCount = max - random.nextInt(Math.min(5, range));
 
                     if (tvActiveUsers != null) {
                         tvActiveUsers.setText(String.valueOf(activeUserCount));
@@ -2023,7 +2075,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                 }
 
                 // Re-schedule based on interval
-                long delay = Math.max(2000, intervalSec * 1000L + (random.nextInt(2000) - 1000));
+                long delay = Math.max(1500, intervalSec * 1000L + (random.nextInt(1000) - 500));
                 if (socialProofHandler != null) {
                     socialProofHandler.postDelayed(this, delay);
                 }
