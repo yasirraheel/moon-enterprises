@@ -479,16 +479,20 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_active_users"
                     android:layout_width="match_parent"
-                    android:layout_height="72dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="72dp"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="2dp"
                     app:cardBackgroundColor="@color/white">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="72dp"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="12dp"
                         android:gravity="center_vertical">
 
                         <!-- LEFT: Title in English -->
@@ -504,9 +508,6 @@
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:textColor="@color/text_primary"
-                            android:maxLines="1"
-                            android:singleLine="true"
-                            android:ellipsize="end"
                             android:includeFontPadding="false"
                             android:gravity="center_vertical|start"
                             android:textAlignment="viewStart" />
@@ -564,7 +565,7 @@
                 <com.geo.enterprises.views.AnimatedBorderView
                     android:id="@+id/glow_border_online"
                     android:layout_width="match_parent"
-                    android:layout_height="72dp"
+                    android:layout_height="match_parent"
                     android:elevation="3dp" />
 
             </FrameLayout>
@@ -579,11 +580,12 @@
                 android:layout_marginBottom="8dp"
                 android:clipChildren="false">
 
-                <!-- Card with identical styling, height (72dp) & elevation as game cards -->
+                <!-- Card with identical styling & elevation as game cards -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_payout_alert"
                     android:layout_width="match_parent"
-                    android:layout_height="72dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="72dp"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="2dp"
                     app:cardBackgroundColor="@color/white">
@@ -592,7 +594,8 @@
                     <RelativeLayout
                         android:id="@+id/layout_payout_text_container"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="72dp"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:paddingTop="12dp"
@@ -600,7 +603,7 @@
                         android:background="@android:color/transparent"
                         android:layoutDirection="ltr">
 
-                        <!-- Main Transaction Text on Left / Top -->
+                        <!-- Main Transaction Text: Full text shown, NO trimming, NO ... -->
                         <TextView
                             android:id="@+id/tv_payout_alert"
                             android:layout_width="match_parent"
@@ -611,17 +614,16 @@
                             android:textSize="15sp"
                             android:textColor="@color/text_primary"
                             android:includeFontPadding="false"
-                            android:maxLines="1"
-                            android:singleLine="true"
-                            android:ellipsize="end" />
+                            android:lineSpacingExtra="2dp" />
 
-                        <!-- Timestamp strictly anchored to Bottom-Right Corner -->
+                        <!-- Timestamp strictly anchored to Bottom-Right Corner below text -->
                         <TextView
                             android:id="@+id/tv_payout_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
+                            android:layout_below="@id/tv_payout_alert"
                             android:layout_alignParentEnd="true"
+                            android:layout_marginTop="3dp"
                             android:text="just now"
                             android:textSize="11.5sp"
                             android:textColor="@color/text_secondary"
@@ -637,7 +639,7 @@
                 <com.geo.enterprises.views.AnimatedBorderView
                     android:id="@+id/glow_border_transaction"
                     android:layout_width="match_parent"
-                    android:layout_height="72dp"
+                    android:layout_height="match_parent"
                     android:elevation="3dp" />
 
             </FrameLayout>
