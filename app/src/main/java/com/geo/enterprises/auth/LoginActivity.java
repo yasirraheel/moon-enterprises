@@ -96,7 +96,7 @@ public class LoginActivity extends BaseActivity {
     private void setupClickListeners() {
         btnLogin.setOnClickListener(v -> performLogin());
         tvRegister.setOnClickListener(v -> {
-            ActivityTransitionUtils.slideInRight(this, new Intent(this, RegisterActivity.class));
+            ActivityTransitionUtils.slideInRightAndFinish(this, new Intent(this, RegisterActivity.class));
         });
         
         tvForgotPassword.setOnClickListener(v -> {

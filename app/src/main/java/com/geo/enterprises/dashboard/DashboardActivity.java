@@ -40,6 +40,7 @@ import com.geo.enterprises.R;
 import com.geo.enterprises.api.ApiClient;
 import com.geo.enterprises.api.ApiService;
 import com.geo.enterprises.auth.LoginActivity;
+import com.geo.enterprises.auth.RegisterActivity;
 import com.geo.enterprises.models.ApiResponse;
 import com.geo.enterprises.models.AppSettings;
 import com.geo.enterprises.models.GameCategory;
@@ -194,8 +195,8 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                     // Check for force updates on app load
                     checkForForceUpdates();
                 } else {
-                    // User data not found, redirect to login
-                    startActivity(new Intent(this, LoginActivity.class));
+                    // User data not found, redirect to sign up
+                    startActivity(new Intent(this, RegisterActivity.class));
                     finish();
                 }
     }

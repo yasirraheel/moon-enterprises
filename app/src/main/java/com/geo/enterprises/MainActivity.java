@@ -20,6 +20,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.geo.enterprises.api.ApiClient;
 import com.geo.enterprises.api.ApiService;
 import com.geo.enterprises.auth.LoginActivity;
+import com.geo.enterprises.auth.RegisterActivity;
 import com.geo.enterprises.dashboard.DashboardActivity;
 import com.geo.enterprises.models.ApiResponse;
 import com.geo.enterprises.models.AppSettings;
@@ -194,9 +195,9 @@ public class MainActivity extends AppCompatActivity {
                 android.util.Log.d("NotificationClick", "Starting DashboardActivity from MainActivity");
                 startActivity(dashboardIntent);
             } else {
-                // User is not logged in, go to login
-                android.util.Log.d("NotificationClick", "User not logged in, redirecting to LoginActivity");
-                startActivity(new Intent(this, LoginActivity.class));
+                // User is not signed in, go to Sign up (RegisterActivity)
+                android.util.Log.d("NotificationClick", "User not logged in, redirecting to RegisterActivity");
+                startActivity(new Intent(this, RegisterActivity.class));
             }
             finish();
         }, delay);

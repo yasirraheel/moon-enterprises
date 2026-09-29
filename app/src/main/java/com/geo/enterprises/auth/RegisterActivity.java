@@ -60,6 +60,12 @@ public class RegisterActivity extends AppCompatActivity {
         initializeViews();
         setupClickListeners();
         loadDynamicBranding();
+
+        // Check if user is already logged in
+        if (preferenceManager.isLoggedIn()) {
+            startActivity(new Intent(this, DashboardActivity.class));
+            finish();
+        }
     }
     
     private void initializeViews() {
