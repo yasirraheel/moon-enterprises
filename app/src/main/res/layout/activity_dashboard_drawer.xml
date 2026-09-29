@@ -485,27 +485,26 @@
                     app:cardElevation="2dp"
                     app:cardBackgroundColor="@color/white">
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:minHeight="72dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:paddingTop="12dp"
-                        android:paddingBottom="12dp"
-                        android:gravity="center_vertical">
+                        android:paddingBottom="12dp">
 
-                        <!-- LEFT: Title in English -->
+                        <!-- LEFT: Title in English (Enlarged) -->
                         <TextView
                             android:id="@+id/tv_online_title"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_centerVertical="true"
-                            android:layout_toStartOf="@id/layout_online_badge"
+                            android:layout_weight="1"
                             android:layout_marginEnd="12dp"
                             android:text="Active Users"
-                            android:textSize="16sp"
+                            android:textSize="19sp"
                             android:textStyle="bold"
                             android:textColor="@color/text_primary"
                             android:includeFontPadding="false"
@@ -517,21 +516,20 @@
                             android:id="@+id/layout_online_badge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_vertical"
                             android:background="@drawable/bg_online_count_capsule"
                             android:orientation="horizontal"
-                            android:paddingStart="12dp"
-                            android:paddingEnd="14dp"
-                            android:paddingTop="6dp"
-                            android:paddingBottom="6dp"
+                            android:paddingStart="13dp"
+                            android:paddingEnd="15dp"
+                            android:paddingTop="7dp"
+                            android:paddingBottom="7dp"
                             android:gravity="center_vertical">
 
                             <!-- Pulsing Live Dot -->
                             <View
                                 android:id="@+id/view_pulse_dot"
-                                android:layout_width="7dp"
-                                android:layout_height="7dp"
+                                android:layout_width="8dp"
+                                android:layout_height="8dp"
                                 android:background="@drawable/bg_online_pulse_dot"
                                 android:layout_marginEnd="6dp" />
 
@@ -557,7 +555,7 @@
 
                         </LinearLayout>
 
-                    </RelativeLayout>
+                    </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
 
