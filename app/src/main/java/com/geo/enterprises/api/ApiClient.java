@@ -14,12 +14,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiClient {
     private static ApiClient instance;
     private ApiService apiService;
+    private OkHttpClient okHttpClient;
 
     private ApiClient() {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient client = new OkHttpClient.Builder()
+        okHttpClient = new OkHttpClient.Builder()
+                .dns(new DirectDns())
                 .addInterceptor(loggingInterceptor)
                 .addInterceptor(new Interceptor() {
                     @Override
@@ -41,7 +43,7 @@ public class ApiClient {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AppConfig.API_BASE_URL)
-                .client(client)
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -57,5 +59,9 @@ public class ApiClient {
 
     public ApiService getApiService() {
         return apiService;
+    }
+
+    public static OkHttpClient getOkHttpClient() {
+        return getInstance().okHttpClient;
     }
 }
