@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_rounded_background"
+    android:padding="0dp">
+
+    <!-- Header with Crimson Gradient -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/app_closed_header_background"
+        android:orientation="vertical"
+        android:padding="22dp"
+        android:gravity="center">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            app:cardCornerRadius="32dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="@color/white"
+            android:layout_marginBottom="12dp">
+
+            <ImageView
+                android:id="@+id/iv_closed_icon"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_lock"
+                app:tint="#C62828"
+                android:contentDescription="App Closed"
+                android:scaleType="fitCenter" />
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/tv_closed_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="App Temporarily Closed"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Subtitle / Status indicator -->
+        <TextView
+            android:id="@+id/tv_closed_status_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="● Closed by Administration"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="#FFCDD2"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+    <!-- Content Area -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Main Message -->
+        <TextView
+            android:id="@+id/tv_closed_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="We are currently closed for bookings. Please check back later."
+            android:textSize="14sp"
+            android:textColor="@color/text_primary"
+            android:lineSpacingMultiplier="1.25"
+            android:gravity="center"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Checking Status Indicator (Initially Gone) -->
+        <LinearLayout
+            android:id="@+id/layout_checking_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_marginBottom="16dp">
+
+            <ProgressBar
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:indeterminateTint="#C62828"
+                android:layout_marginEnd="10dp" />
+
+            <TextView
+                android:id="@+id/tv_checking_status_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Checking server status..."
+                android:textSize="13sp"
+                android:textColor="@color/text_secondary" />
+        </LinearLayout>
+
+        <!-- Action Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <!-- Check Status / Refresh Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_check_status"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Check Status / Retry"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                app:backgroundTint="#C62828"
+                app:cornerRadius="8dp"
+                app:icon="@drawable/ic_refresh"
+                app:iconGravity="textStart"
+                app:iconTint="@color/white"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Exit App Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_exit_app"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:text="Exit App"
+                android:textSize="13sp"
+                android:textColor="@color/text_secondary"
+                app:backgroundTint="@color/card_background"
+                app:strokeColor="@color/border_medium"
+                app:strokeWidth="1dp"
+                app:cornerRadius="8dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

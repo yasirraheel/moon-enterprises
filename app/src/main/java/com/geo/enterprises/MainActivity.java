@@ -126,6 +126,16 @@ public class MainActivity extends AppCompatActivity {
                         updateSplashContent(settings);
                         // Save settings for use in other activities
                         preferenceManager.saveAppSettings(settings);
+
+                        if (settings.isAppClosed()) {
+                            com.geo.enterprises.utils.AppClosedDialog.showAppClosed(
+                                MainActivity.this,
+                                settings.getAppClosedTitle(),
+                                settings.getAppClosedMessage(),
+                                () -> navigateToNextActivity()
+                            );
+                            return;
+                        }
                     }
                 }
                 // Navigate after loading (or timeout)

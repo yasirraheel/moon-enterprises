@@ -828,6 +828,18 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
     private void applyLiveAlertsData(LiveAlertsData data) {
         if (data == null) return;
+
+        // Check if App is placed in Closed Mode by Admin
+        if (data.getAppStatus() != null && data.getAppStatus().isAppClosed()) {
+            com.geo.enterprises.utils.AppClosedDialog.showAppClosed(
+                this,
+                data.getAppStatus().getAppClosedTitle(),
+                data.getAppStatus().getAppClosedMessage(),
+                () -> refreshAllData()
+            );
+            return;
+        }
+
         OnlineUsersConfig onlineCfg = data.getOnlineUsers();
         if (onlineCfg != null && layoutActiveUsersContainer != null) {
             layoutActiveUsersContainer.setVisibility(onlineCfg.isEnabled() ? View.VISIBLE : View.GONE);
@@ -1145,6 +1157,17 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
         // Check trial status
         checkTrialStatus();
+
+        // Check if App is in Closed Mode
+        AppSettings cachedSettings = preferenceManager.getAppSettings();
+        if (cachedSettings != null && cachedSettings.isAppClosed()) {
+            com.geo.enterprises.utils.AppClosedDialog.showAppClosed(
+                this,
+                cachedSettings.getAppClosedTitle(),
+                cachedSettings.getAppClosedMessage(),
+                () -> refreshAllData()
+            );
+        }
     }
 
     private void checkTrialStatus() {

@@ -57,6 +57,15 @@ public class AppSettings {
     @SerializedName("whatsapp_group_link")
     private String whatsappGroupLink;
 
+    @SerializedName("app_closed")
+    private boolean appClosed;
+
+    @SerializedName("app_closed_title")
+    private String appClosedTitle;
+
+    @SerializedName("app_closed_message")
+    private String appClosedMessage;
+
     public AppSettings() {}
 
     // Getters and Setters
@@ -202,6 +211,34 @@ public class AppSettings {
 
     public void setWhatsappGroupLink(String whatsappGroupLink) {
         this.whatsappGroupLink = whatsappGroupLink;
+    }
+
+    public boolean isAppClosed() {
+        return appClosed;
+    }
+
+    public void setAppClosed(boolean appClosed) {
+        this.appClosed = appClosed;
+    }
+
+    public String getAppClosedTitle() {
+        return (appClosedTitle != null && !appClosedTitle.trim().isEmpty())
+                ? appClosedTitle
+                : "App Temporarily Closed";
+    }
+
+    public void setAppClosedTitle(String appClosedTitle) {
+        this.appClosedTitle = appClosedTitle;
+    }
+
+    public String getAppClosedMessage() {
+        return (appClosedMessage != null && !appClosedMessage.trim().isEmpty())
+                ? appClosedMessage
+                : "We are currently closed for bookings. Please check back later.";
+    }
+
+    public void setAppClosedMessage(String appClosedMessage) {
+        this.appClosedMessage = appClosedMessage;
     }
     
     // Helper method to format currency

@@ -9,6 +9,9 @@ public class LiveAlertsData {
     @SerializedName("transaction_alerts")
     private TransactionAlertsConfig transactionAlerts;
 
+    @SerializedName("app_status")
+    private AppStatusConfig appStatus;
+
     public OnlineUsersConfig getOnlineUsers() {
         return onlineUsers != null ? onlineUsers : new OnlineUsersConfig();
     }
@@ -23,5 +26,13 @@ public class LiveAlertsData {
 
     public void setTransactionAlerts(TransactionAlertsConfig transactionAlerts) {
         this.transactionAlerts = transactionAlerts;
+    }
+
+    public AppStatusConfig getAppStatus() {
+        return appStatus;
+    }
+
+    public void setAppStatus(AppStatusConfig appStatus) {
+        this.appStatus = appStatus;
     }
 }
